@@ -1,0 +1,125 @@
+%%%%%%%%%%%%%%%%
+%PARTS REMOVED
+%%%%%%%%%%%%%%%%
+
+
+
+Solution: 
+
+This can be reached by the entities through the C2 Approach agility and C2 Maneuver Agility, that will combine entities' configuration and coordination in order to adapt themselves for the purpose of further keep in action and quality levels. C2 Approach Agility highlights the ability of a C2 approach, e.g., edge, coordinated, collaborative, de-conflicted or conflicted, to deal with the new context. On the other hand, C2 Maneuver Agility indicates the capacity of the system to change C2 approach in response to the new circumstance. 
+
+
+
+
+Motivation:
+
+Real scenarios with the application of C2 concepts assume a large scale resources consumption, e.g., entities. With that, experiments execution can be extremely expensive and unfeasible. Based on this, our study focuses on application and analysis of results and behaviors in a software simulated environment. Such simulated environments allow us to test a wider range of possibilities and to validate models that translate the behavior of the entities involved in the process. Simulation is widely used to evaluate C2 scenarios, e.g., war games for training and description made by~\cite{Mason2001}. In our case, we are using a custom implementation based on agents to create dynamic scenarios with Unmanned Aerial Vehicle (UAV) similar to what was presented by \cite{Schwarzrock2017} and \cite{UAV01}.
+
+
+
+
+Background:
+
+present the simulator architecture implemented with RePast Symphony~\citep{ABAR201713}
+
+
+
+
+Formulas:
+
+%A valid configuration of a member, resulted from a set of features activated, can be represented as:
+
+\begin{equation}
+    \label{eq:prop7}
+    c \models t = \exists F' \subseteq F \bullet (c \in P(F')) \land (\mathcal{R}(F', t))
+\end{equation}
+
+%, where $\mathcal{R}$ correlates the features $F'$ to the task $t$ indicating their compatibility and their capability to perform the task.
+
+
+%%%%%%%
+Robustness: the ability of keeping the effectiveness level across different missions and circumstances. This effectiveness is the indicator to measure the C2 System's robustness and it is a challenge when we have a complex scenario involving many variables, e.g., threat or environment changes. Different contexts allow the suitable system's robustness measurement.
+
+Resilience: The capability of recovering after some issue or damage. It looks for a stabilization after something that causes perturbation. i.e., onboard component damage or environment perturbation. To measure it, it is required to create stress situations to force some adaptation to the new context. It's correlated with responsiveness and flexibility.
+
+Responsiveness: it is the C2 System ability to act or react according to some context change in a timely manner. There is no unique optimal response and it depends on the resources and circumstances. However it needs to occur within reasonable time frame.
+
+Flexibility: it is the capability of the C2 System to act in different ways to achieve the success. The identification of different paths of execution shows the flexibility level of the system. All these possible paths allow the C2 System to obtain suitable outcomes using the most suitable execution line according to the circumstances.However, the system must have the capability of processing to foresee results in different paths execution to chose the most suitable.
+
+Adaptability: The capability of the system to change its organization or work process to become compatible with the new circumstance. It collaborates with the flexibility and responsiveness. Changes in the network structure are an example of adaptation to obtain different level of information sharing to be suitable to a new circumstance.
+
+\% of successful tasks - effectiveness
+Number of reconfigurations - reconfigurations
+Number of maneuvers - adaptations
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \centering
+    \scalebox{.5}{\input{tikz/TS}}
+    \caption{TS resulted from the CS(Section \ref{sec:channelSystem}) representing a simple scenario combination with 3 members ($e_1, e_2, e_3$) performing EX (initial states $i_1, i_2, i_3$) and C2A (initial state $m$) and TA (initial state $w$) roles. $\eta$ represents internal variables values and $\xi$ shows the values in the channels.}
+    \label{fig:TS}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+METRICS
+
+Some metrics are challenging because of the complex scenario involving many variables and dynamism, e.g., threat or environment changes.
+
+
+%%%%%%%
+
+Although modern techniques of Model Checking support a large number of states~\citep{MC01}, concurrent systems like ours may suffer from the possibility of states number explosion. \cite{clarkson2014} showed a prototype of Model Checker to QPTL resulted from a transformation of HyperCTL formula. However the checker is impractical for real-world programs and does not provide a timely response in runtime when the system is under a dynamic context. Based on this, our work is an empirical study using simulation-based experiments. 
+
+Even the simulation environment being simpler than real scenarios, it is relevant to a myriad of different domains such as the military~\citep{CC03} and environmental monitoring~\cite{simulation001}. Simulation creates different circumstances to evaluate a solution or product, or to train professionals, reducing the need for resources to create real circumstances. Furthermore, many scenarios occur naturally in virtual environment, such as Network Centric Warfare and telemedicine, making simulations relevant to represent events that occur in virtual world
+~\citep{telemedicine01, FRANCE2014, CC01}.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Related work (removed text)
+
+
+%The simulation is used in our work to validate the solution proposed and to collect evidence of any important detail from the C2 domain operation. This validation is an element in the flow presented by~\cite{ClaesWohlinPerRuneson2012}. In their work, the validation in academia must to follow some formalization because there is a risk of hide some important aspects due to a technology limitation.
+
+%To operate in scenarios with high level of dynamism, the C2 process needs to be able to give fast response in terms of adaptation, resources application and results level within the time limit to have responsiveness. At this point, \cite{Alberts2011} explored the agility concept and all requirements to obtain it. In our work, the agility is a desired attribute of DSPL adaptation resource, and it guides the C2 modelling. 
+
+%Even being complex and plenty of information, representing the state of the art about C2 Agility, that report did not consider any cost notion. Based on~\cite{Alberts2006} and \cite{C2-20} cited the importance of results measurements as quality evaluation. In real scenarios, the measurements are fundamental to define if the mission is even feasible. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+%CONCLUSION
+
+
+% Besides, it is important to notice that the set $CtxAct$ can be enriched with more events that represents any kind of context changes explained in Section~\ref{ssec:background_c2}, i.e., self, mission and environment changes.
+
+
+% \textbf{CS Modelling}:The abstraction used through roles modelling is useful to model a C2 system behaviour giving flexibility to have any quantity of members that perform one or more roles, simultaneously or not. Furthermore, the CS has enabled us to exchange information among different roles running in parallel through their communications structure, so called channels. 
+
+%\textbf{SPL Approaching}: To deal with context changes, the first step is reconfigure the members. To model and implement such behaviour, we considered each member as a Dynamic SPL, i.e., a DSPL, architecture. Such structure is able to adapt themselves in order to activate or deactivate some features and resources onboard to improve its compatibility level with the tasks.
+
+
+
+
+
+======
+
+
+ %  \item \textbf{Roles}: The role-based modeling, i.e., using CS, has proven efficient in representing the behavior of the C2 elements and making the model flexible and scalable.
+%\end{itemize}
+% <> we are assessing the proposed model if it has agility.
+
+
+
+======
+
+%these program graphs are used to model roles, i.e., an abstraction of the entities' behavior that is part of a C2 structure. An agent can play one or more instances of a role. Based o this, \citet{agent0010} shows the use of roles as components of agents' implementation for modeling communication and coordination of an agent-based system~\cite{agent1}. These agents can accumulate different types of roles and responsibilities and execute them according to the circumstance~\cite{weyns2019activforms}.

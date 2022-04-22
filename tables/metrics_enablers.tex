@@ -1,0 +1,35 @@
+\begin{table}[ht!]
+	\small
+	\fontsize{10}{10}\selectfont
+	\centering
+	\caption{Metrics used to evaluate the proposal}
+	\label{table:metrics}
+	
+	\begin{tabularx}{\textwidth}{llXX}
+	\hline
+		\textbf{ID}
+		& \textbf{Metric}
+		& \textbf{Description}
+		& \textbf{Enablers} \\ [1ex]
+	\hline	
+	
+	M1 & Reconfigurations & Number of internal reconfigurations performed by the members to accomplish the mission within a given timeout. & Robustness, Responsiveness, Flexibility
+	\\[1ex] \\
+	
+	M2 & Maneuvering & Number of C2 Maneuvers performed by the members to accomplish the mission within a given timeout. & Adaptability, Robustness, Responsiveness, Flexibility
+	\\[1ex] \\
+	
+	M3 & Timeliness & System time, in ticks, to accomplish the mission within a given timeout. & Responsiveness
+	\\[1ex] \\
+	
+	M4 & Resilience & The effectiveness recovering metric in face of system perturbations. & Robustness
+	\\[1ex] \\
+	
+	M5 & Effectiveness &  Percentage of successful tasks completed by the executors. & Robustness, Adaptability, Responsiveness, Flexibility
+	\\[1ex] \\
+	
+	M6 & Reward & Total quality of all sensors used to perform the tasks & Adaptability, Responsiveness, Flexibility
+	\\[1ex]
+	\hline
+	\end{tabularx}
+\end{table} 

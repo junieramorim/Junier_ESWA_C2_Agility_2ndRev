@@ -1,0 +1,84 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Command and Control}
+\label{ssec:background_c2}
+
+Command and Control (C2) is the exercise of authority and direction by a properly designated commander over assigned and attached forces in the accomplishment of a mission~\citep{dod01}. \citet{Alberts2006} \color{black}extend \color{black} this definition including the efforts of a set of entities, i.e., members or organizations, and resources, including information, in order to achieve a goal or result. Such a definition includes information as one of its component elements that travel on a network structure \color{black}to satisfy \color{black} the context requirements and mission details. According to~\citet{Stanton2007} and~\citet{Mason2001}, C2 relies on information and awareness sharing rather than simply data broadcast. 
+
+Created in the military domain, the C2 concepts were extended to become applicable  to multiple domains through the process that increases the action power through a shared awareness. This awareness can be synchronized using a specific network structure and organization \color{black} to create entity interactions, \color{black} so called Network Centric Warfare (NCW) - USA -  or Network Enabled Capabilities (NEC) - England~\citep{Alberts2000}. \color{black} Based on the NEC paradigm,~\citet{FRANCE2014,nato01} present five approaches to C2 described as follows:
+\begin{itemize}
+    \item \textit{Conflicted}: there is no allocation of decision rights, no interaction among entities, and the entities have only internal information; 
+
+    \item \textit{De-Conflicted}: there are constraints to the allocation of decision rights, the interactions among entities are very limited with limited information exchanges restricted to constraints and joints;
+
+    \item \textit{Coordinated}: the allocation of decision rights follows a coordination plan, the patterns of interaction are limited and focused, and there is additional information;
+
+    \item \textit{Collaborative}: the allocation of decision rights follows a collaborative process and shared plan, the entities’ interaction is broad, and there is additional information across collaborative areas;
+
+    \item \textit{Edge}: there is a self allocation of decision rights dynamically, the entity interactions are unlimited, and all information is available.
+\end{itemize}
+\color{black}
+
+From a structure where there is no information and decision sharing (Conflicted) to a fully connected structure where all entities share information and decision capability (Edge), these approaches combine different levels of decision making, data sharing, and information. Each one looks for different entities' awareness levels obtained through a suitable communications improvement to deal with more complex scenarios and mission conditions~\citep{nato01,Power01}. \color{black}This complexity increases with context changes, that is, changes in the environment, in the mission, or in the entities. Particularly, the environment involves everything that surrounds the entities, such as  enemies' characteristics, weather, and environmental conditions\color{black}. Based on this, C2 Agility emerges as the system's ability to deal with such context changes, \color{black}adapting to new requirements in order to continue execution of the tasks\color{black}~\citep{FRANCE2014}. According to~\citet{Alberts2006}, this C2 Agility is the combination of the following elements:
+
+\begin{center}
+\fbox{\begin{minipage}{30em}
+\begin{itemize}
+
+    \item \textbf{C2 Approach Agility}: members' and structure adaptation within the operated C2 Approach to deal with context changes;
+    
+    \item \textbf{C2 Maneuver Agility}: C2 Approach change to obtain a different awareness level to deal with context changes.
+
+\end{itemize}
+\end{minipage}}    
+\end{center}
+
+Each C2 Approach provides a different communication structure with a distinct awareness level \X{suitable} for specific contexts.~\citet{nato01} highlights that there is no best unique solution to satisfy all requirements of a given circumstance.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Channel System}
+\label{ssec:background_cs}
+
+
+\citet{MC01} define channel systems (CS) as parallel systems with processes running independently that communicate via channels, which are first-in, first-out buffers that may contain messages. CS are assumed to be closed, that is, inter-processes communication is only allowed in the system, but not outside it. Each parallel process is defined by a program graph (PG), which is a representation of the system's behavior, abstracting over its transition system semantics. Equation~\ref{eq:cs01} defines the CS formed by a sequence of $n$ PGs running in parallel within the same system:
+
+
+\begin{equation}
+    \label{eq:cs01}
+    CS=[PG_1|PG_2|...|PG_n]
+\end{equation}
+
+Figure~\ref{fig:pg_example} illustrates a program graph that models a print server that reads an image file from a buffer and sends it to a printer. It is defined by the tuple\\ $\mathit{PG=(Loc,Act,Effect,\hookrightarrow,Loc_0,g_0)}$, where
+
+
+
+\begin{itemize}
+    \item $Loc=\{wait, print, load, cancel\}$ is the set of locations, that is,     nodes that have a control function;
+    \item $Act=\{start, flush\}$ is the set of actions;
+    \item $\mathit{Effect}$ is the function modeling the effect of actions on the state of the PG, i.e., it's what the actions do;
+    \item $\hookrightarrow$ is the conditional transition from a location $l$ to a location $l'$, represented by $l\xhookrightarrow[]{g:\alpha}l'$, where an action $\alpha \in Act$ is performed when a condition, so-called guard, $g$ is satisfied;
+    \item $Loc_0=\{wait\}$ is the set of initial locations;
+    \item $g_0$ is the initial condition on the variables of the system, \X{required for starting the CS.}
+\end{itemize}
+
+\begin{figure}[!ht]
+    \centering
+    \color{black}
+    \scalebox{.8}{\input{tikz/pg_example2}}
+    \caption{Program Graph example with 4 locations modeling a print server.}
+    \label{fig:pg_example}
+\end{figure}
+
+Specific actions model communication among program graphs. Action $ch!x$ writes message $x$ in channel $ch$, whereas action $ch?x$ reads the message from the channel and stores it in variable $x$. In either case, the variables and messages types must be compatible. For example, in Figure~\ref{fig:pg_example}, from locations $wait$ to $load$, data is read from a channel called \textit{buffer} and stored in variable \textit{img}. As there is no guard condition before the two points, and no alternative action from location \textit{wait}, the operation always occurs when there is data on the channel.  The write operation occurs in locations \textit{print} and \textit{cancel}, where the variable \textit{msg}'s content is written in channel \textit{comm} and is available to be read by another PG within the same CS. In such a case, these operations occur when the the guard condition  \textit{complete} is satisfied.
+
+The channel capacity \X{for} storing messages, denoted by $cap(ch)$,  is defined by its buffer size. When $cap(ch) > 0$, communication occurs asynchronously. Otherwise, \emph{handshaking} takes place, that is,  read and write operations occur synchronously. In the previous example, we have that $\mathit{cap(buffer)=0}$  to make the PG stop and wait for information arrival at channel \textit{buffer}. 
+
+Besides, in Figure~\ref{fig:pg_example},  by executing the transition from \textit{wait} to \textit{load}, the process reads an image from the channel called \textit{buffer} and \X{stores} it in the variable \textit{img}, going from location \textit{wait} to \textit{load}. Next, the server can print \textit{img} with the image file, if the condition \textit{valid} is satisfied, i.e., $valid=true$. In such a case, the \textit{start} action is performed, and the next location reached is \textit{print}. Otherwise, identifying some problem, it cancels the operation and goes to the \textit{cancel} location, running the \textit{flush} action.
+
+%\input{tables/channels}
+

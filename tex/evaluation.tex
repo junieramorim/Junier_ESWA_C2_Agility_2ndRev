@@ -1,0 +1,309 @@
+This section presents the assessment of the model proposed in Section~\ref{sec:proposal} under different scenarios to measure the obtained C2 System agility. This assessment is performed through an \textit{in silico} experiment~\citep{simulation01} simulating UAVs dispatched on a reconnaissance mission to acquire images from a terrain. Such a method provides a way to analyze different situations and it allows us to work with different scenarios that would otherwise be unfeasible to test given incurred cost and resource availability. The simulated environment considers that the circumstances can change during the mission execution, allowing to test the effectiveness of the C2 System under such conditions. The replication package comprising the artifacts related to this empirical evaluation is available in a public repository.\footnote{\reproductibility}
+
+The following sections present the goal definition and the metrics applied in the evaluation  (Section~\ref{ssec:definition}), the planning of the study  (Section~\ref{ssec:planning}), its execution (Section~\ref{subsec:operations}) and lastly, \X{analysis} of the obtained results and discussion about the findings  (Section~\ref{subsec:analysis_discussion}). 
+
+
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECTION 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Definition}
+\label{ssec:definition}
+
+The performed empirical study is defined according to the Goal-Question-Metric (GQM)~\citep{gqm001} method. Figure~\ref{fig:gqm} shows the goal as the assessment of C2 Agility in our proposed computational model. The assessment made is useful to the entities' commanders. Such entities may be composed of internal entities, recursively, up to the level of individual members who also have commanders. From the goal, two research questions are derived, which consider the members within the same C2 Approach  (\textit{Q1}) and C2 Approach changes  (\textit{Q2}). Such questions address the level of C2 Agility existing in the system. Table \ref{table:metrics} defines the metrics applied in the evaluation to answer the proposed questions and corresponding agility enablers. The metrics are (\textit{M1 - Reconfigurations; M2 - Maneuvering; M3 - Engagement Time; M4 - Effectiveness; M5 - Resilience; M6 - Reward}) related to the agility enablers described by~\citet{Gren2019AgilityIR}, \citet{c2-02} and \citet{Alberts2011}.  
+
+
+\begin{figure}[ht]
+    \centering
+    \scalebox{.52}{\input{tikz/GQM}}
+    \caption{GQM Diagram with the Goal, the Research Questions RQ1 and RQ2, and the metrics (M1, M2, M3, M4, M5 and M6)}
+    \label{fig:gqm}
+\end{figure}
+
+
+\input{tables/metrics}
+
+
+Context perturbations, e.g., sudden changes in the environment, or onboard component damage, require system adaptation to keep running. To identify the system's adaptation ability, the number of \color{black}member reconfigurations (M1) \color{black}and C2 Approach changes (M2) are counted. The Maneuvering (M2) metric assesses the adaptability level of the system due to its capability of \color{black} changing its organization. Response time \color{black} is measured by the Engagement Time (M3) metric, which measures how long the system takes to execute the mission's tasks. Such an aspect highlights the responsiveness of the system to changing circumstances. \X{ The Effectiveness (M4) metric evaluates the ratio of the mission’s tasks that the members have already accomplished with the total number of tasks.} 
+
+The difference between the effectiveness (M4) metric obtained from scenarios with and without context changes shows the system capacity to recover the highest effectiveness level obtained from the scenario without context changes. Such recovery capacity defines the Resilience (M5) metric. Finally, Reward (M6) defines  the compatibility between the members and the \color{black}mission's tasks. \color{black}Equation~\ref{eq:reward} defines this metric in terms of the compatibility score $Q_{ij}$ sum.
+
+\begin{equation}
+    \label{eq:reward}
+    M6=\sum Q_{ij} \ ,where\  t_j \in T_{success} \ and\ compatible(c_i,t_j)
+\end{equation}
+
+This score defines the compatibility level of a task $j$, which has a type, with a sensor $i$ used to perform it. Such a sensor corresponds to a feature in the configuration $c_i$ run by the member, and all tasks successfully performed are stored in $T_{success}$ for results analysis. Besides, all tasks with the same type have the same compatibility level to the sensors.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECTION 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Planning}
+\label{ssec:planning}
+
+The following sections describe the hypotheses on the proposed model (Section~\ref{sssec:hyp}), define the simulation scenarios  (Section~\ref{sssec:scenarios}), explain the experimental design and the analysis procedure (Section~\ref{sssec:design}), and the supporting instrumentation (Section~\ref{sssec:instrumentation}).
+
+
+\subsubsection{Hypotheses Formulation}
+\label{sssec:hyp}
+
+Figure~\ref{fig:variables} shows the factors and the dependent variables related to the GQM (Figure~\ref{fig:gqm}). The scenario and the action method are identified as factors. A scenario comprises an initial context and a sequence of events that occur during the mission. Section~\ref{sssec:scenarios} details possible scenarios.
+
+\begin{figure}[ht!]
+    \centering
+    \scalebox{.55}{\input{tikz/variables}}
+    \caption{Factors and dependent variables used by the proposed model}
+    \label{fig:variables}
+\end{figure}
+
+The second factor is called the action method and it represents the system's response to deal with a context change or perturbation. Consider two possible treatments, namely A1 and A2, which identify the baseline and the proposed model to respond to context changes, respectively. With treatment A1, the system starts the execution with an initial context, performs a task allocation of mission tasks among team members, and in face of context changes, the system just keeps running as long as it can, but it does not perform any kind of adaptation to deal with new circumstances. Such a treatment represents the low maturity of the state-of-the-art in C2 agility to deal with context changes. Indeed, especially in the military domain, e.g., ~\citet{CC03, FRANCE2014}, the proposed solutions perform only a historical analysis of success or an aleatory strategy choosing to deal with the new circumstances based on a fast and simplified analysis of some scenario variables. Another common strategy is 
+not to perform any kind of adaptation to deal with new circumstances, which characterizes our baseline treatment A1. In contrast, treatment A2 applies the C2 computational model proposed in Section~\ref{sec:proposal}. 
+
+Also, in all considered scenarios of both treatments, each task can be executed by at least one team member. It is relevant because of the baseline, where there are no \X{member reconfigurations}.
+%Both treatments have all sensors type at least once. It is relevant because of the baseline, where there are no members’ reconfiguration. Such a scenario guarantees the existence of at least a member able to perform the tasks of each type. 
+Considering the research questions and the metrics identified in GQM, the corresponding null and alternative hypotheses are formulated, as shown in Table \ref{table:hyp}. 
+
+\input{tables/hyp}
+
+The null hypothesis states there will be no statistically significant differences in metrics' average for different action methods in the same scenario. The alternative hypothesis states otherwise. % In $H_1$, for all metrics in GQM (Figure~\ref{fig:gqm}), i.e., M1, M2, M3, M4, M5, and M6, different results for two different treatments are collected, i.e., A1 and A2, applied to the factor agility method. This difference in results can confirm the presence of C2 agility and its impact on the system.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECTION 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Simulation Scenarios}
+\label{sssec:scenarios}
+
+A simulation scenario consists of an initial context and a sequence of events that provide dynamism (cf. Figure~\ref{fig:scenario}). \color{black}A regular expression was used to write the sequence of events representing the possibility of multiple occurrences of each event $\alpha_i$, which can be none or several, making up the sequence of context changes. \color{black}The initial context comprises the set $E$ of members operating an initial C2 Approach $\omega$, the mission $M$ composed of a set of tasks, and the environment. Each event in the set $CtxAct$ (see Equation~\ref{eq:ctxact})\color{black}, so-called Context Actions, \color{black}represents an action that causes a member or environment changes at runtime, i.e., changes in the context. 
+
+\begin{equation}
+    \label{eq:ctxact}
+    CtxAct = \{memberFailure,sensorFailure, envChange \} 
+\end{equation}
+
+The environment represents all the conditions of the place where the members act, e.g., weather conditions, hazard due to enemy's activity, and communication restrictions. They are modeled as the state of a specific kind of onboard sensor, i.e., a foggy day can turn a VGA sensor useless.
+
+\begin{figure}[ht!]
+    \centering
+    \scalebox{.5}{\input{tikz/scenarios}}
+    \caption{Scenario comprising the initial context variables and a sequence of events that characterizes a dynamic context}
+    \label{fig:scenario}
+\end{figure}
+
+\X{As shown in Section~\ref{sec:example}, a dynamic context represents all the possibilities of changes: i) in the members, through unavailability of any nature; ii) in the mission, with changes in the tasks to be performed, or iii) in the environment, with disturbances in any element of the environment where the members act. However, for evaluating the system’s response to changes in the context, we selected a set of significant events that cause device damage or degradation of any nature, or any feature of status interest, depending on the specific type of system under concern. Table~\ref{table:context_changes} lists the actions related to a sample of context changes, combined with the initial context used by the simulation. These actions occur during the simulation to create a dynamic scenario, resembling realistic settings. Onboard sensors perceive environmental changes in all members and reduce their capability to be employed in a mission.}
+
+%Table~\ref{table:context_changes} lists the possible actions combined with the initial context used by the simulation. These actions occur during the simulation to create a dynamic scenario, resembling realistic settings. Environmental changes are perceived by onboard sensors in all members and cause a reduction of their capability to be employed in a mission.
+
+
+\input{tables/context_changes}
+
+
+With military domain experts' collaboration, we classify these context change events according to their impact on the system. Such classification is based on consolidated doctrines of a situation analysis and planning in military operations with application in many different contexts~\citep{nato01, doctrine01, Fernandes2016, UAV_Aplication, CC03, UAV01}. It is used to create the sequences of events \color{black} in an increasing level of complexity\color{black}, requiring more resilience from the system. 
+
+Table~\ref{tab:scenarios} shows the scenarios considered in the simulation. 
+\color{black} The related event sequences were selected to have increasing level of complexity and commonality, based on the impact classification presented in Table~\ref{table:context_changes}, obtained from military domain experts. Accordingly, environment changes are more common to occur in the operation, followed by sensor issues and member failures because of enemy engagement or mechanical problems.
+\color{black}
+
+Besides the sequences of events presented, the initial contexts for all scenarios are formed by a team $E$ with 5 members, a mission $M$ with 30 tasks, and De-Conflicted as the initial C2 Approach $w_0$, i.e., a ring communication structure. During the simulation, these events occur in the sequence presented but at random times within the mission timeout.
+
+
+
+\input{tables/experimentalScenarios}
+
+The simulation operates a scenario with 5 possible types of tasks (0 to 4) and 5 types of sensors (A, B, C, D, and E). The tasks and onboard sensors are randomly chosen \color{black}before the round executes\color{black}. When the \color{black} task allocation \color{black}process starts, the algorithm applies a function that returns the quality $Q_{ij}$, obtained from a table, that correlates a sensor $i$ to the task $j$. When $Q_{ij}=0$ it means the sensor $i$ is not able to perform the task $j$.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECTION 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Experimental Design and Analysis Procedure}
+\label{sssec:design}
+
+
+Figure \ref{fig:exp_design} illustrates the factorial experimental design applied to assess the formulated hypotheses, where each action method is exercised with each scenario in a trial (cf. Section~\ref{sssec:scenarios}). Combinations of the factors are assessed with the metrics shown in Figure~\ref{fig:gqm}.
+
+
+\begin{figure}[ht]
+    \centering
+    \scalebox{.6}{\input{tikz/experimentalDesign}}
+    \caption{Factorial experimental design, where each action method is exercised with each scenario.}
+    \label{fig:exp_design}
+\end{figure}
+
+
+The simulation uses a set of random variables to define some elements during execution, such as UAVs’ and tasks’ positions, and sensors that the context event will affect. \X{A simulator} engine generates these random numbers based on seeds created in runtime. For a consistent comparison between the action methods A1 and A2, a fixed set of seeds within the same trial were used in order to have the same value of such variables \X{during each} experimentation round.
+
+To proceed with data analysis and sample size definition, a confidence level of 95\% in all statistical calculations was used. Such confidence level brings a significant population mean estimation and an acceptable sampling error. A \emph{p-value} of 0.05 was used to perform statistical hypothesis testing. The choice of these parameters is based on the standard cutoff used in \color{black}previous works; e.g.,~\citet{CochranW.G.1983} and~\citet{Bruce2014}. \color{black}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECTION 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Instrumentation}
+\label{sssec:instrumentation}
+
+Following related research on C2 simulation~\citep{FRANCE2014, Fernandes2016, Stanton2007, c2-02} and on the use of roles as components of agents' implementation~\citep{agent0010, agent1}, the simulations were performed using an agent-based framework, in this case Repast Simphony~\citep{North2013, SIMUL01, ClaesWohlinPerRuneson2012}. Figure~\ref{fig:repast01} shows an execution screen of the implementation \color{black} with the parameter fields \color{black} that can be changed to create different experimental setups \color{black} and the panel \color{black} with the agents' execution field.
+
+The simulation implements the three roles modelled by the PGs shown in Figures \color{black} \ref{fig:ex_pg}, \ref{fig:ta_pg}, and \ref{fig:c2a_pg}  \color{black} to define UAV behavior with autonomy of reconfiguration, tasks allocation and execution, employed in a military recognition mission~\citep{UAV_Aplication}. Furthermore, perturbations and factors modifications were inserted in runtime to provide dynamism to the system and make it closer to a real scenario. A context change simulated by the system causes the quality reduction of a specific type of sensor, e.g., an environment change simulating a luminosity decreasing \color{black} reduces by $50\%$ \color{black} the quality of the sensor type 2 that represents a VGA camera. Sensor failure is modelled by setting its quality to zero. Furthermore, a member \color{black} can be lost with, consequently, \color{black} all its onboard sensors.
+
+Inspired by the solution applied in~\citet{MAS07} and \citet{UAV01} to allocate tasks to a set of agents, a similar principle was used in this work based on swarm strategy. Depending on the C2 Approach \color{black}operating\color{black}, the members are notified about the allocation performed and unfinished tasks. This guarantees a better awareness level among entities and can improve the allocation result due to more context information shared by the members. Such allocation is feasible when a member has a configuration that activates a \color{black}task-compatible sensor\color{black}.
+
+The C2 Approach \color{black}Maneuvering \color{black}follows the enumerated type described in Section~\ref{ssec:background_c2}. From the initial C2 Approach, which is De-Conflicted (cf. Section~\ref{sssec:scenarios}), the maneuver follows incrementally over this list and going back to Conflicted after Edge. The Conflicted is the final C2 Approach adopted by the system before discarding the unfeasible tasks. Such sequence is based on real scenarios of the military domain where a disconnected structure is adopted in extreme situations where there are no conditions to hold another communication and interaction strategy.
+
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.7\linewidth]{img/repast01.png}
+  \captionof{figure}{Simulator implementation  with Repast Simphony~\citep{SIMUL01}}
+  \label{fig:repast01}
+\end{figure}
+
+
+The trials are performed feeding the simulator with the scenario data (cf. Section~\ref{sssec:scenarios}) combined with the two action methods shown in Figure~\ref{fig:exp_design}. Such scenarios are loaded through an input text file (CSV pattern). With all these data, the simulator runs each scenario with each action method, according to the experimental design (cf. Section~\ref{sssec:design}). The results are exported as text files and processed with \X{the R tool}~\citep{stat002,R_G} to calculate the mean and the standard deviation, draw graphs, and perform the statistical tests and validation.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECTION 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Executions}
+\label{subsec:operations}
+
+The experiment performs a significant set of executions in a batch way to reduce the effect of system startup on the standard deviation. An initial number of runs ($n_i=50$) was chosen to analyze the amount of dispersion in the results obtained by the experiments. Based on this, it was possible to observe the need to adjust the sample size to meet the acceptable confidence level (cf. Section~\ref{sssec:design}). According to \citet{CochranW.G.1983}, Equation~\ref{eq:stat} gives the sample size \emph{n} that satisfies a given confidence level, a population standard deviation $\sigma$, and the difference \emph{d} between the population mean ($\overline{X}$) and sample mean ($\mu$).
+
+\begin{equation}
+    \label{eq:stat}
+    n=\left(\frac{Z_{\alpha/2} \cdot \sigma}{d}\right)^2
+\end{equation}
+
+According to the analysis procedure (cf. Section ~\ref{sssec:design}), the Equation~\ref{eq:stat} is applied with $95\%$ confidence, i.e., a $Z_{\alpha/2} = 1.96$, and $d = |\overline{X} - \mu| \leq 0.1\mu_i$, where $\mu_i$ is the mean obtained with the initial set of runs $n_i$. This value of $d$ is less than 10\% of the mean result obtained by the initial sample. With such parameters, an average sample size of 500 was obtained. Based on this, the factorial experiment with scenario and action method factors (see Figure~\ref{fig:exp_design}) was executed 500 times for all combinations of treatments. Table~\ref{table:results01} shows the results obtained for the metrics listed in GQM (Figure~\ref{fig:gqm}) for each scenario, which was performed 500 times. 
+
+\input{tables/results01}
+
+%The simulation is not applying $addTask$ action due to the allocation task strategy adopted by the system, i.e., based on swarm algorithm, that puts the new task in the end of the available tasks list. Such position causes low impact in the system because the task will be allocated only if there is resources available after all previous allocation.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUBSECTION 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Analysis and Discussion}
+\label{subsec:analysis_discussion}
+
+
+Table~\ref{table:results01} and Figures~\ref{fig:m1},~\ref{fig:m2},~\ref{fig:m3},~\ref{fig:m4},~\ref{fig:m5} and~\ref{fig:m6} show the results obtained by the simulation. Positive values for Reconfigurations (M1) (cf. Figure~\ref{fig:m1}) occur only in proposed method (A2) and indicates team's adaptation to deal with context changes in \color{black}all simulated scenarios\color{black}. By tracing into the source code of the simulation, we observed that such adaptations are followed by the tasks' reallocation activity in case the reconfiguration is not sufficient to make the member compatible with the task. A similar analysis can be applied to Maneuvering (M2) shown in Figure~\ref{fig:m2}. Positive values are obtained  only in the A2 method, which can perform a C2 Approach change to try a new awareness level. The values obtained show an upper bound due to the sequence of C2 Approach adopted starting from De-Conflicted up to Edge and finishing on the Conflicted one (cf. Section~\ref{ssec:background_c2}). 
+%The values obtained show an upper bound due to the resource limitation to perform the mission, such as  members' fuel and time, which are spent during the C2 Approach change.
+
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.95\linewidth]{img/graphs/Boxplot_M1.png}
+  \captionof{figure}{Reconfigurations (M1)}
+  \label{fig:m1}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.95\linewidth]{img/graphs/Boxplot_M2.png}
+  \captionof{figure}{Maneuvering (M2)}
+  \label{fig:m2}
+\end{minipage}
+\end{figure}
+
+
+Figure~\ref{fig:m3} shows results of Engagement Time (M3) for each scenario. In this case, the A2 method allows the system to keep running longer than A1, even in scenarios with more context changes. This suggests A2 provides more system availability due to its enhanced adaptation capability, as indicated by results for M1 and M2. 
+
+ Regarding Effectiveness (M4), Figure~\ref{fig:m4} shows higher  capacity of the C2 system to solve tasks by the A2 method compared to A1, suggesting the higher availability obtained for M3 is well-employed in dealing with the mission in A2, increasing the system capacity to deal with context changes and to perform the tasks.
+
+
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.95\linewidth]{img/graphs/Boxplot_M3.png}
+  \captionof{figure}{Engagement time (M3)}
+  \label{fig:m3}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  %  \includegraphics[width=0.95\linewidth]{img/graphs/Result_M4.png}
+  \includegraphics[width=0.95\linewidth]{img/graphs/Boxplot_M4.png}
+  \captionof{figure}{Effectiveness (M4)}
+  \label{fig:m4}
+\end{minipage}
+\end{figure}
+
+
+Regarding the Resilience (M5) metric, Figure~\ref{fig:m5} shows that, in general, action method A2 is more capable of presenting a percentage of completed tasks closer to what would be obtained if the context remained unchanged. The only exception is for Scenario 3, since, upon exploration of simulation execution steps, the \emph{memberFailure} events in this scenario prompt task reallocation that cannot be better than the initial one made with the complete set of members. Besides, the time spent on members’ reconfiguration and tasks’ reallocation leads to a slightly lower result than that obtained by the A1 method, which only continues the execution.  
+
+In terms of Reward (M6), Figure~\ref{fig:m6} shows better results for A2 indicating that the system adaptation provides more compatible configurations for performing tasks. Indeed, tracing into the simulation execution of method A2 reveals that all reconfiguration and C2 Approach change performed may lead to task reallocation. Such behavior always looks for the best member and sensor to perform the task to be allocated, reflecting the results presented in Figure~\ref{fig:m6}. In contrast, A1 performs only one allocation at mission startup. This way, when context change events occur, tasks are not \color{black}reallocated even when employed \color{black}sensors are damaged. Besides, if all 30 tasks in the mission are performed by the most compatible sensor for each one, i.e., with quality 1, we obtain the maximum result of 30 for reward (M6) metric. 
+%Furthermore, as each sensor has a quality between 0 and 1 for each type of task, the maximum Reward metric (M6) that can be obtained is the sum of sensors' quality used, e.g., a total reward of 30 in a mission with 30 tasks using sensors with maximum quality level.
+
+
+
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.95\linewidth]{img/graphs/Boxplot_M5.png}
+  \captionof{figure}{Resilience (M5)}
+  \label{fig:m5}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.95\linewidth]{img/graphs/Boxplot_M6.png}
+  \captionof{figure}{Total reward (M6)}
+  \label{fig:m6}
+\end{minipage}
+\end{figure}
+
+Since removing members with the \emph{memberFailure} event does not allow members to reconfigure---prompting instead a task reallocation or even a C2 Approach change---it explains the decrease on M1, M4, M5, and M6 in Scenario 3 for method A2. \color{black}In contrast, \emph{sensorFailure} and \emph{envChange} enable member reconfiguration or change to the C2 Approach to search for an alternative allocation of pending tasks based on the algorithm used, i.e., swarm-gap based~\citep{MAS07, UAV01}, and the available context information. \color{black}It gives to A2 advantage in all other scenarios. Moreover, for methods A1 and A2, it is possible to observe a significant reduction in results for M3, M4, M5, and M6 due to the progressive loss of  system resources such as  members, sensors, and autonomy, as exercised by the scenarios. 
+
+%Furthermore, the engagement time (M3) only suffered a significant decrease after a reduction in resources of more than 60\% identified from Scenario 6 onwards. 
+
+
+%The \emph{null hypotheses $H_0$} in Table~\ref{table:hyp} can be refuted since the non-parametric statistical test demonstrated that the results of the metrics defined in GQM are different for the treatments applied to the action method. Even for Scenario 3, the \textit{p-value} for all metric were less than 0.05 and it indicates that the two samples compared, i.e., A1 and A2 results, are statistically different. Based on this, the alternative hypothesis is valid, confirming that the proposed method A2, able to perform internal reconfigurations and C2 Approach changes, presented a significant result in face of context changes simulated. We identify only Resilience (M5) metric in Scenario 3 with A1 results greater than A2 ones (cf. Figure~\ref{fig:m5}). These results evidence that the model proposed handles C2 Approach Agility (\emph{RQ1}) and C2 Maneuver Agility (\emph{RQ2}).
+
+% Vander: after thinking about this the whole day, I fail to draw in my head any new info from comparing M3
+% and M4. I suggest either simplifying a lot the following 3 paragraphs into a single one or
+% removing the discussion. Operationally, I suggest: 1) consensus discussion; 2) Thiago writes the paragraph.
+%
+\color{black}
+Nonetheless, even though both M3 and M4 decrease as scenarios become more complex, they do so at different rates.
+Indeed, mean engagement time decreases less than 20\% before scenario 8, whereas mean effectiveness decreases about 46\% for the same scenarios (cf. Table~\ref{table:results01}).
+This trend suggests that engagement time is not necessarily an indicator of effectiveness, strengthening the claim made by~\citet{Alberts2006} that ``the quality of C2 should not be deduced solely from mission outcomes''.
+\color{black}
+
+
+%The engagement time (M3) and the effectiveness (M4) metrics are complementary and highlights that the mission engaged does not show a direct ratio with its accomplishing. The main reason for this statement is the time spent by the entities to deal with context change, e.g., to find an appropriate allocation of remaining tasks. With the complexity of the events sequence that characterizes the context changes, it is possible to notice a significant reduction of M3, starting from scenario 7 as shown in Figure~\ref{fig:m3}, of about 40\% in the total time in ticks with our proposed model. Such decreasing is even bigger with no adaptation and coordination, i.e., with the action method A1. The context dynamism affects the M4 earlier, with a significant decreasing starting from scenario 3 (cf. Figure~\ref{fig:m4}) and getting up to 60\% of reduction in the percentage of completed tasks, in scenario 10.
+
+%Even keeping long engagement in the mission, with negative impact only in complex scenarios with more change events, the overhead incurred by structure reorganization reduces the time for performing tasks. The number of C2 Approach changes (cf. Figure~\ref{fig:m2}), guided by the amount of context change events, causes reorganization of the members’ communication structure to continue executing the unfinished tasks and, because of this, causing a time-consuming. Based on this, comparing Figures~\ref{fig:m3} and~\ref{fig:m4}, we should have, conceptually, the engagement time in order to keep the effectiveness. However, we notice a time-consuming that reduces the number of complete tasks. In summary, the proposed modeling provided a higher percentage of mission completion (cf. Figure~\ref{fig:m4}), but there is a trade-off regarding the time taken to apply C2 agility.
+
+
+%Even with a reduced decrease of less than 40\ when reaching the most complex scenario, i.e., the scenario 10, we faced a significant reduction of about 60\ in the effectiveness, i.e., the capacity of successfully executing tasks. In addition, comparing Figures~\ref{fig:m3} and~\ref{fig:m4}, we note a significant reduction of results in Scenarios 3 to 10 in the Engagement Time (M3) metric. These two scenarios present the maximum number of C2 Approach changes (cf. Figure~\ref{fig:m2}) because of the amount of context change events and the members’ need to reorganize the communication structure to continue executing the available tasks. Even keeping engaged in the mission, the overhead incurred by such reorganization reduces time for performing tasks. \color{black}
+
+%Besides, as the members’ current task execution can be interrupted by a context change event, the effectiveness level (Figure~\ref{fig:m4}) drops faster than the engagement time (Figure~\ref{fig:m3}) since the total available execution time is limited by system’s resources and the mission execution deadline. Even with this decrease, it is possible to observe a considerable difference in these metrics’ values obtained with the system running the baseline action method A1 and the A2 proposed.
+ 
+
+
+Although the difference between the results with action methods A1 and A2 for all scenarios and metrics is graphically observable, a statistical test was performed to confirm these differences. With a Shapiro-Wilk test~\citep{stat001}, a \textit{p-value} less than 0.05 was obtained, thus indicating a non-normal distribution. Accordingly, an Mann-Whitney U Test described in~\citet{stat002} was applied, i.e., Wilcoxon-test in R, to check differences among the samples of action methods A1 and A2 for all scenarios. According to the number and value of samples, the statistical analysis confirmed the difference between all results from A1 and A2 methods for all simulated scenarios. All  \emph{null hypotheses $H_0$} in Table~\ref{table:hyp} were then refuted in favor of the alternative hypotheses. A2 has statistically significant higher values for all metrics, except for Resilience (M5) in Scenario 3, in which case A1 has a 7\% higher value for the reasons discussed previously. Therefore, the simulation results provide evidence that the proposed model  provides C2 Approach Agility (\emph{RQ1}) and C2 Maneuver Agility (\emph{RQ2}).
+
+
+\begin{center}
+\fbox{\begin{minipage}{30em}
+In summary, simulation results suggest that the proposed model exhibits C2 agility. Indeed, the system stays more time in action, completes more tasks and more compatible ones, resulting in higher resilience thereby better coping with context changes and perturbations in dynamic scenarios.
+
+\end{minipage}}    
+\end{center}
+
+
+
+%%% REWRITING
+%Despite the found evidence, this work presents some limitations that are related to the task allocation and the C2 Approach choice. The simulator performs a non-optimized task allocation and presents limited resilience in this process. Moreover, the selection of the C2 Approach occurs sequentially according to its communications structure. Such a choice does not take into account a previous analysis of the context. In this case, the several attempts of the C2 Approach have a cost in terms of operating time and onboard resources, impacting the obtained results.
+
+%In addition, the C2 concepts are applied only in the computational environment, i.e., simulations. This application scenario may highlight restrictions to the extension of the proposed model to other domains and scenarios. Besides, the events that provide dynamism to the context considered in this work are suitable for UAV's operation scenarios. To extend the proposed model to other areas, making it more compatible with real scenarios, it is necessary to include new events that may impact the model's behavior and may require significant adjustments.
+
+
+
+
+

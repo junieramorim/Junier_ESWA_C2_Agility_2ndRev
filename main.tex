@@ -1,0 +1,315 @@
+%% This is file `elsarticle-template-1-num.tex',
+%%
+%% Copyright 2009 Elsevier Ltd
+%%
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%%
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.2 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.2 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%%
+%% Template article for Elsevier's document class `elsarticle'
+%% with numbered style bibliographic references
+%%
+%% $Id: elsarticle-template-1-num.tex 149 2009-10-08 05:01:15Z rishi $
+%% $URL: http://lenova.river-valley.com/svn/elsbst/trunk/elsarticle-template-1-num.tex $
+%%
+\documentclass[preprint,12pt,table]{elsarticle}
+%\documentclass[review]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+%% The graphicx package provides the includegraphics command.
+\usepackage{graphicx}\graphicspath{{.}{img/}}
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers after \end{frontmatter}.
+\usepackage{lineno}
+
+\usepackage[utf8]{inputenc}
+\usepackage{lineno,hyperref}
+
+% \usepackage{subfig}
+
+% \usepackage{color}
+\usepackage{mathtools}
+\usepackage{amsmath} % separar equação
+\usepackage{stmaryrd}
+%\usepackage[miktex,subfolder,cleanup]{gnuplottex} % Gnuplot
+\usepackage{algorithmic}
+\usepackage[ruled,lined,noend,linesnumbered]{algorithm2e}
+% \usepackage{subfigure}
+\usepackage{multicol}
+% \usepackage{color}
+\usepackage[inline]{enumitem}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{subcaption}
+% \usepackage[htt]{hyphenat}
+
+
+%%% TIKZ LIB %%%%%%%%%
+% \usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{mathdots}
+\usepackage{yhmath}
+\usepackage{cancel}
+% \usepackage{color}
+\usepackage{siunitx}
+\usepackage{physics}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{gensymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usetikzlibrary{fadings}
+\usetikzlibrary{patterns}
+\usetikzlibrary{shadows.blur}
+\usetikzlibrary{shapes}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%TABLES%%%%%%%%%%%
+\usepackage[normalem]{ulem}
+\usepackage{tablefootnote}
+\usepackage{colortbl}
+\usepackage{makecell}
+% \usepackage[table]{xcolor}
+\usepackage{tabularx}
+\usepackage{threeparttable} %footnote for tables
+
+\usepackage{stackengine}
+\newcommand\xrowht[2][0]{\addstackgap[.5\dimexpr#2\relax]{\vphantom{#1}}}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Format Webpage citation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{url}
+\def\UrlBreaks{\do\/\do-}
+%\usepackage{breakurl}
+\usepackage{hyperref}
+\usepackage{framed}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% To make review easier
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\X}[1]{\textcolor{blue}{#1}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make it easy to spot overfull hbox.
+\usepackage{textcomp}
+\overfullrule=2cm
+
+\newcommand{\gitRepository}{https://github.com/junieramorim/C2Agility}
+\newcommand{\implementation}{https://github.com/junieramorim/C2Agility/tree/main/source}
+\newcommand{\results}{https://github.com/junieramorim/C2Agility/tree/main/results}
+\newcommand{\reproductibility}{https://github.com/junieramorim/C2Agility/wiki}
+
+
+\usepackage{indentfirst} %identa o primeiro paragrafo
+% \usepackage{tabularx}
+
+%% natbib.sty is loaded by default. However, natbib options can be
+%% provided with \biboptions{...} command. Following options are
+%% valid:
+
+%%   round  -  round parentheses are used (default)
+%%   square -  square brackets are used   [option]
+%%   curly  -  curly braces are used      {option}
+%%   angle  -  angle brackets are used    <option>
+%%   semicolon  -  multiple citations separated by semi-colon
+%%   colon  - same as semicolon, an earlier confusion
+%%   comma  -  separated by comma
+%%   numbers-  selects numerical citations
+%%   super  -  numerical citations as superscripts
+%%   sort   -  sorts multiple citations according to order in ref. list
+%%   sort&compress   -  like sort, but also compresses numerical citations
+%%   compress - compresses without sorting
+%%
+%% \biboptions{comma,round}
+
+% \biboptions{}
+
+\journal{Expert Systems With Applications}
+
+\begin{document}
+
+\begin{frontmatter}
+
+%% Title, authors and addresses
+
+\title{Providing Command and Control Agility: a Software Product Line Approach}
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for the associated footnote;
+%% use the fnref command within \author or \address for footnotes;
+%% use the fntext command for the associated footnote;
+%% use the corref command within \author for corresponding author footnotes;
+%% use the cortext command for the associated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%%
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \address{Address\fnref{label3}}
+%% \fntext[label3]{}
+
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{<author name>}
+%% \address[label1]{<address>}
+%% \address[label2]{<address>}
+
+\author[unbaddress]{Junier Caminha Amorim}
+\ead{junieramorim@aluno.unb.br}
+
+\author[unbaddress]{Eduardo Lemos Rocha}
+\ead{eduardo.lemos@aluno.unb.br}
+
+\author[unbaddress]{Luigi Minardi}
+\ead{luigi.minardi@aluno.unb.br}
+
+\author[unbaddress]{Vander Alves}
+\ead{valves@unb.br}
+
+\author[ufrgsaddress]{Edison Pignaton de Freitas}
+\ead{epfreitas@inf.ufrgs.br}
+
+\author[ebaddress]{Thiago Castro}
+\ead{castro.thiago@eb.mil.br}
+
+\author[unamur]{Moussa Amrani}
+\ead{moussa.amrani@unamur.be}
+
+\author[unamur]{James Ortiz}
+\ead{james.ortizvega@unamur.be}
+
+\author[unamur]{Pierre-Yves Schobbens}
+\ead{pierre-yves.schobbens@unamur.be}
+
+\author[unamur]{Gilles Perrouin}
+\ead{gilles.perrouin@unamur.be}
+
+%
+%\authorrunning{F. Author et al.}
+% First names are abbreviated in the running head.
+% If there are more than two authors, 'et al.' is used.
+%
+\address[unbaddress]{Department of Computer Science, University of Brasilia, Brazil}
+\address[ufrgsaddress]{Institute of Informatics, Federal University of Rio Grande do Sul, Brazil}
+\address[ebaddress]{Systems Development Center, Brazilian Army, Brazil}
+\address[unamur]{Precise Research Center, NaDI, University of Namur, Belgium}
+
+
+%Second review format
+%\begin{abstract}
+%\input{tex/abstract}
+%\end{abstract}
+
+%\begin{keyword}
+%Command and Control \sep Agility  \sep Dynamic Context \sep Dynamic Software Product Lines
+%\end{keyword}
+
+\end{frontmatter}
+
+%%
+%% Start line numbering here if you want
+%%
+%\linenumbers
+
+\newpage
+\section*{Abstract}
+\input{tex/abstract}
+\textit{Keywords:} Command and Control, Agility, Dynamic Context, Dynamic Software Product Lines
+
+\section{Introduction} 
+\label{sec:introduction}
+\input{tex/introduction}
+
+
+%\section{The Problem} 
+%\label{sec:problem}
+%\input{}
+
+
+\section{Background} 
+\label{sec:background}
+\input{tex/background}
+
+
+\section{Problem Statement} 
+\label{sec:example}
+\input{tex/motivating}
+
+
+\section{A Product-Line Approach to C2 Agility} 
+\label{sec:proposal}
+\input{tex/proposal}
+
+
+%\section{Design and Implementation}
+%\label{sec:designImpl}
+%\input{tex/designImpl}
+
+
+\section{Empirical Evaluation} 
+\label{sec:evaluation}
+\input{tex/evaluation}
+
+
+\section{Threats to Validity}
+\label{sec:threats}
+\input{tex/threats}
+
+
+\section{Related Work}
+\label{sec:relatedWork}
+\input{tex/relatedWork}
+
+
+\section{Conclusion} 
+\label{sec:conclusion}
+\input{tex/conclusion}
+
+% @TODO: remember to insert acknowledgments
+
+%\section*{References} %it was removed because the bibliography tag (in elsarticle class) includes this label in the text.
+%\bibliographystyle{elsarticle-num}
+%\bibliographystyle{elsarticle-num-names}
+%\clearpage
+\bibliography{references}
+\bibliographystyle{model5-names}
+\biboptions{authoryear}
+%\bibliographystyle{addons/model5-names}
+%\biboptions{authoryear}
+%\bibliographystyle{plainnat}
+%\biboptions
+\end{document}

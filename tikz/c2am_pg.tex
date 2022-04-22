@@ -1,0 +1,61 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,370); %set diagram left start at 0, and has height of 370
+
+%Curve Lines [id:da9480858267519683] 
+\draw    (200.5,59) .. controls (307.46,9.25) and (417.89,17.91) .. (502.72,60.36) ;
+\draw [shift={(504,61)}, rotate = 206.82999999999998] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Shape: Ellipse [id:dp6594609066072359] 
+\draw   (81.5,75) .. controls (81.5,61.19) and (108.14,50) .. (141,50) .. controls (173.86,50) and (200.5,61.19) .. (200.5,75) .. controls (200.5,88.81) and (173.86,100) .. (141,100) .. controls (108.14,100) and (81.5,88.81) .. (81.5,75) -- cycle ;
+%Shape: Ellipse [id:dp873836537729809] 
+\draw   (506,76.5) .. controls (506,62.42) and (532.53,51) .. (565.25,51) .. controls (597.97,51) and (624.5,62.42) .. (624.5,76.5) .. controls (624.5,90.58) and (597.97,102) .. (565.25,102) .. controls (532.53,102) and (506,90.58) .. (506,76.5) -- cycle ;
+%Straight Lines [id:da37650774099478246] 
+\draw    (334,149) -- (347.58,122.78) ;
+\draw [shift={(348.5,121)}, rotate = 477.38] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Rounded Rect [id:dp20897962983691354] 
+\draw   (118.5,186.6) .. controls (118.5,179.64) and (124.14,174) .. (131.1,174) -- (613.9,174) .. controls (620.86,174) and (626.5,179.64) .. (626.5,186.6) -- (626.5,224.4) .. controls (626.5,231.36) and (620.86,237) .. (613.9,237) -- (131.1,237) .. controls (124.14,237) and (118.5,231.36) .. (118.5,224.4) -- cycle ;
+%Rounded Rect [id:dp6489541210438411] 
+\draw   (7,266.4) .. controls (7,253.48) and (17.48,243) .. (30.4,243) -- (737.6,243) .. controls (750.52,243) and (761,253.48) .. (761,266.4) -- (761,336.6) .. controls (761,349.52) and (750.52,360) .. (737.6,360) -- (30.4,360) .. controls (17.48,360) and (7,349.52) .. (7,336.6) -- cycle ;
+%Shape: Ellipse [id:dp35747792046006877] 
+\draw   (297,90.5) .. controls (297,76.42) and (323.53,65) .. (356.25,65) .. controls (388.97,65) and (415.5,76.42) .. (415.5,90.5) .. controls (415.5,104.58) and (388.97,116) .. (356.25,116) .. controls (323.53,116) and (297,104.58) .. (297,90.5) -- cycle ;
+%Curve Lines [id:da035475864760055154] 
+\draw    (424.21,92.88) .. controls (460.08,106.96) and (486.38,105.74) .. (505,93) ;
+\draw [shift={(422,92)}, rotate = 22.07] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Curve Lines [id:da19760874620395663] 
+\draw    (202.22,95.88) .. controls (238.39,109.99) and (272.38,109.74) .. (291,97) ;
+\draw [shift={(200,95)}, rotate = 22.07] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+
+% Text Node
+\draw (139,74) node   [align=left] {Operating};
+% Text Node
+\draw (566,76) node   [align=left] {Maneuvering};
+% Text Node
+\draw (359,11) node    {$ch_{3} \ ?\langle T,E\rangle $};
+% Text Node
+\draw (349,147) node    {$g_{0}$};
+% Text Node
+\draw (469,115) node    {$update$};
+% Text Node
+\draw (374,203) node    {$ \begin{array}{l}
+g_{0} =( \omega =\omega _{0}) \land ( find\_maneuver=f_{1}( C2_{ap} ,[ e_{1} ,...,e_{n}] ,[ t_{1} ,...,t_{n}])\\
+\ \ \ \ \ \ \ \ \land ( E=\{e_{1} ,e_{2} ,...,e_{n}\}) \land ( T_{fail} =[]) \land ( T=[ t_{1} ,t_{2} ,...,t_{f}])
+\end{array}$};
+% Text Node
+\draw (385,300) node    {$ \begin{array}{l}
+Var=\{find\_maneuver:( C2_{ap} ,\ [ FM] ,\ [ Task])\rightarrow C2_{ap} ;\ T_{fail} :[ Task] ;\ \omega :C2_{ap} ;\ T:[ Task] ;\ E:[ FM] ;\\
+\ \ \ \ \ \ \ \ \ \ \ \ \ \omega _{f} :C2_{ap} \ \}\\
+Effect( update,\ \eta ) =\begin{cases}
+\eta [ T_{fail} :=T_{fail} ++T;\ T:=[] ;\ \omega :=\omega _{f} \ ] & \ \ \ \ if\ ( find\_maneuver( \omega ,E,T) =NULL)\\
+\eta [ \ \omega :=\ find\_maneuver( \omega ,\ E,\ T)] & \ \ \ \ otherwise
+\end{cases}
+\end{array}$};
+% Text Node
+\draw (246,120) node    {$ch_{2} !\langle T,E,\omega \rangle $};
+% Text Node
+\draw (357,89) node   [align=left] {Notifying};
+
+
+\end{tikzpicture}

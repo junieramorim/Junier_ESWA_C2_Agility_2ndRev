@@ -1,0 +1,23 @@
+\begin{table}[ht]
+	\small
+	\fontsize{10}{10}\selectfont
+	\centering
+	\caption{Context changes handled by the simulator with related actions in the CS and their impact level in the system}
+	\label{table:context_changes}
+
+	\begin{tabular}{p{0.16\linewidth}p{0.18\linewidth}p{0.1\linewidth}p{0.43\linewidth}}
+	\hline
+		 \textbf{Change}
+		& \textbf{Action}
+		& \textbf{Impact}
+		& \textbf{Description}  \\ [1ex]
+	\hline	\\ [-1ex] 
+	Environment & \textit{envChange} & low & Weather conditions (e.g., luminosity, cloudiness) impacting the sensor's quality; \\[1ex]
+	& & & Hazard level requiring changes in the UAV's behavior \\[5ex]
+	Self & \textit{sensorFailure} & medium & Sensor onboard damage caused by any internal issue (\color{blue}e.g.\color{black}, electronic circuit damaged) \\[1ex]
+	& \textit{memberFailure} & high & UAV out of operation due to serious damage (e.g., no fuel or battery, or taken down) \\[6ex]
+	
+	%Mission & addTasks & 1 & tasks addition or removal in the mission \\[5ex]
+	\hline
+	\end{tabular}
+\end{table} 

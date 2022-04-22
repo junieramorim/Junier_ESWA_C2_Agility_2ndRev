@@ -1,0 +1,56 @@
+\textit{Command and Control (C2)} is about focusing the efforts of a set of entities and resources towards the achievement of some task, objective, or goal~\citep{Alberts2006}. The entities may represent individuals or organizations, and resources involve everything manipulated by the entities, including information exchange. Originally developed in the military domain, C2 was initially based on the idea of a central command concentrating information and power over required elements to accomplish the mission~\citep{Power01}.
+
+With the increasing importance and distribution of information at all operational levels, C2 processes have evolved to incorporate technological tools that support  information exchange and decision making. The result of these developments has been the application of C2 in several domains, such as Civil Defense during disaster relief operations, and financial operations managing resources to maximize results~\citep{CC03,Fernandes2016}. Further C2 applications include sensitive issues as nuclear weapon control~\citep{C2-EX2}, national mass-vaccination campaigns~\citep{C2-EX1}, and the COVID-19 pandemic scenario, orchestrating different government and research organizations to find a mitigation or solution to the problem and providing responses to the society~\citep{C2-EX5, C2-EX3, C2-EX4}.
+
+The complexity of existing scenarios in different C2 domains stems mostly from the inherent dynamism \color{black}present due to  \color{black}changes of circumstances or context. For instance, the sudden lack of entities or the increased risk of collapse or flooding are some of the problems that characterize circumstance changes of C2 applied in the Civil Defense domain. Such changes in the scenario characterize the context dynamism, which can occur in the mission, in the environment, or in the various entities.
+
+
+Based on this, \citet{FRANCE2014} define \emph{C2 agility} as the entities’ capability of dealing with context changes in an appropriate and timely way. The state-of-the-art on C2 rarely addresses C2 agility. Indeed, 
+\citet{MAS07} assess swarm intelligence strategies for tasks allocation in C2 systems within UAV simulated scenarios in which context changes are not explored. \citet{UAV01} further explore the effects of dynamism on the behavior of  entities in C2 systems assessed by~\citet{MAS07}, and how it influences performance, which is compromised due to the system’s inability to self-adapt. To cope with some of context changes, \citet{FRANCE2014} propose providing the entities with new resources. The same study performed simulation-based experiments and retrospective case studies of realistic operations to validate the proposed theory in a dynamic context. However, no cost notion was implemented. 
+
+\citet{Swart2012} show C2 as a set of processes that manipulate information and data through a network structure. Still, dynamic contexts are also not addressed in such study. Similarly, \citet{Mason2001} propose a software architecture to model C2 process, but in static scenarios. Extending this model, \citet{Stanton2007} present Process Model as a structure that summarizes  monitoring, decision making, adaptation, and action executed by the C2 process to deal with context changes. Nevertheless, those models do not endow entities with the ability to deal with context changes. To provide C2 Agility, \citet{c2-02} use simulation-based experiments in adaptive networks to collect such evidence. The used scenario has dynamism to explore how the connections change when nodes are lost. Even though it involves C2 concepts and a dynamic context, this work does not explore structured adaption in order to \X{retain} connections.
+
+
+Overall,  there is a lack of evidence on how to provide C2 agility. Indeed, state-of-the-art and state-of-the-practice approaches rarely explore context changes. The few that do so focus on randomized network-level reconfiguration rather than on entity-level reconfiguration or changes across the granularity of full missions rather than during the mission. Thus, they do not deal adequately with the adaptation of the mission accomplishment, and therefore do not deal with real C2 agility~\citep{FRANCE2014,Alberts2017,c2-02,Alberts2011, nato01}. On the other hand, dynamism abounds in real scenarios, which are \color{black}under frequent changes of circumstances~\citep{c2-02}. \color{black}This aspect highlights C2 agility's relevance to deal with context changes to provide capability of adaptation. 
+
+To demonstrate how C2 agility may be \color{black}implemented\color{black}, we propose a computational model of a C2 System composed of entities collaborating towards completing a mission. The model defines how entities' reconfiguration and coordination may help handle context changes occurring in the mission, in the environment, or in the entities themselves. The C2 System model is formalized as a typed-parameterized extension of a channel system~\citep{MC01}, which defines the roles and responsibilities handled by the entities constituting a C2 System, where each entity is modeled as a dynamic software product line~\citep{Bencomo2008}.
+
+To assess the proposed model, an environment with a set of UAVs \color{black}employed \color{black} in a reconnaissance mission was simulated. The simulation explores different scenarios with context changes. Such changes occur in the entities due to random damages in onboard  entities’ components and parts, or in the environment due to hazard increasing or \color{black}changing weather conditions\color{black}, thus causing impacts on the execution. Challenging situations in achieving agility were identified and discussed according to related tradeoffs. In summary, this work makes the following contributions:
+
+\begin{itemize}
+
+   
+
+    %\item \color{black}A definition of C2 Agility identifying the relation and dependence of C2 System elements, and scaling the Maneuver Agility and C2 Approach Agility as two different levels of handling the dynamic context (Section~\ref{sec:example});\color{black}
+    
+    %\item \color{red}A refined definition of C2 Agility relating mission tasks,  the C2 approach operated by the team engaged in the mission, and team members' configurations (Section~\ref{sec:example});\color{black}
+    
+    %\item \color{black}The proposal of a typed-parameterized channel system that models C2 system roles and their interactions, dealing with context changes (Section~\ref{sec:channelSystem});\color{black}
+    
+    \item \color{black}The proposal of a computational model of a C2 system composed of entities collaborating according to well-defined roles towards completing a mission and dealing with context changes (Section~\ref{sec:channelSystem});
+    
+    %\item \color{black}A simulation-based study to empirically evaluate the proposed channel system in providing C2 agility, according to relevant metrics  (Section~\ref{sec:evaluation}).\color{black}
+    
+    \item \color{black}A simulation-based study to empirically evaluate the proposed computational model in providing C2 agility, according to relevant metrics  (Section~\ref{sec:evaluation}).
+\end{itemize}
+
+\color{black}Together, these contributions advance the research in C2 by providing a computational model of C2 agility that adds to the body of knowledge required to study and assess the impact of C2 agility in complex endeavours.
+\color{black}
+
+
+
+The remainder of this paper is organized as follows. Section~\ref{sec:background}  presents the main concepts related to this work. Section~\ref{sec:example} details the problem and its relevance. Section~\ref{sec:proposal} presents the proposed channel system addressing the problem. Section~\ref{sec:evaluation} assesses the proposed model through simulations.  Section~\ref{sec:threats} presents the main validity threats. Section~\ref{sec:relatedWork} discusses related work. Finally, Section~\ref{sec:conclusion} presents   concluding remarks, limitations of this work, and highlights for future work opportunities.
+
+%Context: C2, C2 agility, simulated environment  (Slides 2-12)
+
+%C2 definition...originally appeared in the military domain, now common in other domains, <give examples>.... C2 agility, simulated environment.
+
+%Problem: There is no evidence on how to provide C2 Agility (Slides 15-17)
+
+%Relevance of the problem: addressing the problem is essential for effectiveness of C2 in realistic scenarios
+
+%Solution: Computational model (Slides 19-26)
+
+%Evaluation: Simulation (write in one sentence the Goal of slide 67) + The results show that...
+
+% Contributions in bullets (referencing motivating example, approach, and evaluation sections)

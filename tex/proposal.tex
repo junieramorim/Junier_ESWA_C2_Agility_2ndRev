@@ -1,0 +1,178 @@
+\X{To satisfy the C2 agility requirements and in line with Self-Adaptive Systems (SAS)~\citep{AlvesSBBG09}, our proposal relies on the software capacity of adapting to deal with requirements change in runtime. Relying on different valid products generation from a common artifact set, just activating or deactivating features, to provide context dealing, the Software Product Line (SPL) approach~\citep{SPL_SAS01}, extended to dynamic scenarios, shows itself is a suitable choice for dealing with such a variability. Based on this, we leverage Dynamic Software Product Line (DSPL) as a strategy for implementing this capability of runtime reconfiguration.} 
+
+\X{Performance is not in this work’s scope and it makes DSPL a workable strategy to deal with varying requirements and constraints as a SAS approach~\citep{SPL_SAS01}. Based on this, we combine such a definition to present a computational model capable of representing the scenario members’ behaviors based on the roles that such elements have.}
+
+To cope with context changes, the members, modeled as DSPL, may reconfigure themselves or adjust their coordination according to the communication structure and information exchange of a C2 strategy. This capacity is enabled by a model that allows coordination and data exchange via so called channels, and a member’s description composed by features that can be dynamically enabled according to the circumstances, generating different configurations. Particularly, the proposed computational model is a typed-parameterized extension of the channel system presented in Section~\ref{ssec:background_cs}, henceforth referred to as C2 channel system (C2CS), which is described \X{in the next} sections.
+
+%To provide C2 Agility, the proposal is to present a computational model capable of representing the scenario members’ behaviors based on the roles that such elements have. To cope with context changes, these members may reconfigure themselves or adjust their coordination according to the communication structure and information exchange of a C2 strategy. This capacity is enabled by a model that allows coordination and data exchange via so called channels, and a member’s description composed by features that can be dynamically enabled according to the circumstances, generating different configurations. Particularly, the proposed computational model is a typed-parameterized extension of the channel system presented in Section~\ref{ssec:background_cs}, henceforth referred to as C2 channel system (C2CS), which is described \X{in the next} sections.
+
+
+
+\subsection{Typed-Parameterized Channel System}
+\label{sec:channelSystem}
+
+Essentially, C2CS defines coordination among entities and their reconfiguration to cope with context changes eventually arising during a mission. These behaviors are described by three different program graphs (PGs) making up C2CS and representing role types played by entities: \textit{Task Performer (TP)}, \textit{Task Allocator (TA)}, and \textit{C2 Approach Manager (C2AM)}. TP establishes the tasks' execution and entity's reconfiguration behavior. TA defines task allocation responsibilities among entities, and C2AM specifies a C2 Approach change protocol. Types are used to describe the structure of the PG's locations as well as of the message content exchanged in synchronous and asynchronous channels. 
+
+Figure \ref{fig:cs} depicts C2CS, whereas Equation~\ref{eq:cs} defines it. The use of channel system concepts allows the execution of parallel processes with communication capability among them. Such a structure allows us to model the identified roles in a C2 system running in parallel and performing information exchange. This exchange leverages channels, i.e., first-in, first-out buffers that carry messages. The C2CS employs both synchronous and asynchronous channels. The former, e.g., $ch_2$ and $ch_3$, synchronizes C2AM's and TA's PG when they perform tasks allocation and C2 Approach change. The latter, e.g., $m_k$ and $ch_1$, enables the transmission of allocated tasks to the TPs and the return of not possible tasks to the TA. 
+
+\begin{figure}[ht]
+    \centering
+    \scalebox{.8}{\input{tikz/cs}}
+    \caption{C2 Channel System for a team composed by \textit{n} members with the TP role asynchronous and synchronous channels represented by single and double line arrows, respectively.}
+    \label{fig:cs}
+\end{figure}
+
+
+\begin{equation}
+    \label{eq:cs}
+    \begin{split}
+    C2CS([FM]\ E,\ &  \mathcal{P}(Task)\ M,\ C2_{ap}\ \omega_0) = [C2AM(E, M,\omega_0)\ |\ TA\ | \\ & \ TP(fm_1, \omega_0)\ |\ ...\ |\ TP(fm_n, \omega_0)]
+    \end{split}
+\end{equation}
+
+\color{black}
+In Equation~\ref{eq:cs}, the parameters have the following meaning and types. The set $M=\{t_1, t_2,\ ...,\ t_m \}$ is the designated mission, consisting of tasks that the members will try to perform. $M$ belongs to $\mathcal{P}(Task)$, which is the power set of $Task$, where $Task=\{t_a, t_b,\ ...,\ t_z \}$ is the set of all possible tasks. The list $E = [fm_1, fm_2,\ ...,\ fm_n ]$ of team members is such that each team member has a capability of type Feature Model ($FM$). Additionally, such members always operate a C2 Approach $\omega \in \Omega$, where $\Omega =$ \textit{\{Edge, Collaborative, Coordinated, De-Conflicted, Conflicted\}}. Lastly, the vertical bars represent parallel composition of the PGs representing the roles played by the team members.
+\color{black}
+
+C2CS leverages parameters to abstract from specific mission, entities, and initial conditions. It models roles that will be performed by the agents.
+
+Each role played by the entities is represented by a PG that receives parameters that define some aspects of its internal structure. Such PGs are parallel processes that compose the C2CS and are instantiated according to the C2 Approach selected. Instances of different PGs can coexist in the same member according to the C2 Approach operated. In particular, the representation of multiple TPs shown in Figure~\ref{fig:cs} is to emphasize the existence of a specific asynchronous channel $m_k$ for each member $k$ owning a TP role instance, from where they receive the tasks to be performed. All members within $E$ with such a role instance are responsible for the mission's tasks accomplishment. Based on this, the member-to-role-instance mapping is such that each team member may eventually play one instance of the TP, TA, and C2AM roles simultaneously, and more details related to the implementation of this mapping are available in a public repository\footnote{\gitRepository}.
+   
+ 
+%The member-to-role-instance mapping is such that each team member plays each EX role instance, and it contributes \textit{partially} to both the TA and the C2A roles, the amount of such contribution depending on the current C2 approach. Conversely, each EX role instance is cohesively encapsulated in one member, whereas the C2A and the TA roles are \textit{scattered} throughout team members, given the inherent collaborative nature of these roles.  it.
+%Team members contribute to all roles with dynamic intensity during the mission. 
+
+In a typical C2CS scenario, when the mission starts, TA allocates tasks to team members, which work on accomplishing them. Eventually, to handle context changes, members may reconfigure themselves, e.g., due to sensor failure, or \color{black}the TA \color{black} can reallocate tasks among members, e.g., due to member failure. Alternatively, even a task allocation might not suffice, in which case the C2AM might change the C2 approach, prompting new task allocation among members. \color{black}In the worst scenario, when changing the C2 approach does not suffice, the task fails.\color{black} 
+
+
+Recalling the motivating example (Section~\ref{sec:example}), in that specific C2 approach the coordinator plays the C2AM and TA roles. Each one of the other members plays the TP role. In that particular case, the loss of one member will first prompt the leader to reallocate tasks to the other team members, using the channels depicted in Figure \ref{fig:example2-a}. 
+ Since the only member capable of executing the task that was previously allocated to the lost member is the leader, the C2AM changes the current C2 approach to Edge \citep{FRANCE2014}, prompting this modification using the communication network among members, i.e., the C2 Approach. This way, the former leader now plays the TP role and thus can execute the aforementioned tasks. This resulting situation is illustrated in Figure \ref{fig:example2-b}.
+
+\begin{figure}[!htbp]
+	\centering
+	\begin{subfigure}[t]{.45\textwidth}
+	\centering
+	    \includegraphics[width=0.95\linewidth]{img/C2Drones2-V4-dashed.png}
+	    \caption{UAV dropped (dashed circle)\label{fig:example2-a}}
+	\end{subfigure}
+	\begin{subfigure}[t]{.45\textwidth}
+	\centering
+	    \includegraphics[width=0.95\linewidth]{img/C2Drones3-V4-dashed.png}
+	    \caption{C2 Approach change \label{fig:example2-b}}
+	\end{subfigure}
+	\caption{The team performing tasks after C2 Approach change (lines indicating communication links) due to problems with one of the members (dropped UAV marked with a dashed circle)}
+	\label{fig:TeamExecutionAfterManuever}
+\end{figure}
+
+% \begin{figure}
+% \centering
+% \fbox{
+% \begin{minipage}{.45\textwidth}
+% %\captionsetup{type=figure}
+%   \centering
+%   \includegraphics[width=0.95\linewidth]{img/C2Drones2-V4-dashed.png}
+%   \subcaptionbox{(a) UAV dropped (dashed circle)\label{fig:example2-a}}{}
+% \end{minipage}}%
+% \fbox{
+% \begin{minipage}{.45\textwidth}
+%   \centering
+%   \includegraphics[width=0.95\linewidth]{img/C2Drones3-V4-dashed.png}
+%   \subcaptionbox{(b) C2 Approach change \label{fig:example2-b}}{}
+% \end{minipage}}
+% \caption{The team performing tasks after C2 Approach change (lines indicating communication links) due to problems with one of the members (dropped UAV marked with a dashed circle)}
+% \label{fig:example}
+% \end{figure}
+
+
+%\begin{figure}[ht]
+%    \centering
+%    \fbox{
+%    \begin{minipage}{.45\textwidth}
+%  \centering
+%  \includegraphics[width=0.95\linewidth]{img/C2Drones3-V4-dashed.png}
+%\end{minipage}}
+%\caption{The team performing tasks after C2 Approach change(lines indicating communication) due to problems with one of the members(marked with a dashed circle)}
+%\label{fig:3TeamExecutionAfterManuever}
+%\end{figure}
+
+Overall, reconfiguration, performing new task allocation, and changing the C2 approach under certain context changes are explicitly represented in the PGs, \color{black}thereby enabling the C2CS's strategy \color{black} to achieve agility (cf. Section~\ref{sec:example}). The PGs are detailed in the following, and their implementation is publicly available elsewhere.\footnote{\implementation}
+
+
+\subsubsection{Task Performer}
+
+The Task Performer's PG defines task execution and reconfiguration behavior for members playing this role. To enable this behavior, each member $e \in E$ is modelled as a Dynamic Software Product Line (DSPL)~\citep{Hallsteinsen2008}, whose Feature Model ($FM$) is given by a set of \textit{features} $F=\{f_1, ...,f_k\}$ from which a valid set of configurations $[\![FM]\!]$ is obtained, i.e., $[\![FM]\!]: \mathcal{P}(F)$~\citep{Schobbens2006FeatureDA, Kang1990}. The $features$ represent the members’ onboard  resources, which when enabled indicate that the corresponding sensors are operational.
+
+The member's configurations described by its feature model provide task completion capability. The member's reconfiguration behavior is described by actions in the PG due to context changes and it is \color{black}characterized by choosing \color{black}a configuration compatible with the tasks. This aspect allows the members to reconfigure themselves to become compatible with the tasks to be performed.
+
+\begin{figure}[ht!]
+    \centering
+    \scalebox{.75}{\input{tikz/tp_pg}}
+    \caption{Program Graph defining the Task Performer $k$ (TP) role}
+    \label{fig:ex_pg}
+\end{figure}
+
+\color{black}Based on this, a member $e$ is capable of executing a task $t$ when it reconfigures itself to adopt a configuration $c \in [\![FM]\!]$ such that this configuration makes the member capable of dealing with the task $t$.  This compatibility is known at the start and is denoted by $compatible(c, t)$. \color{black}This configuration is characterized by sensors activated. There is a score, between 0 and 1, which indicates the compatibility level between each sensor $i$ onboard and the type of a task $j$, written as $Q_{ij}$ and so named quality. In summary, a member can receive a task $j$ when it has a sensor $i$ enabled whose $Q_{ij}$ meets the threshold, i.e., the acceptance level defined.  
+
+%\begin{equation}
+%    \label{eq:prop6}
+%    compatible(e, t) \iff \exists c \in C_e \ \bullet compatible(c, t)
+%\end{equation}
+
+Figure~\ref{fig:ex_pg} defines \X{TP} behavior formally. Accordingly, upon mission start (guard $g_0$), TP has an initial configuration $c_0$, i.e., initial state defined by \X{members'} characteristics or even by the domain requirements, and an initial C2 strategy $w_0$ received through channel $ch2$ from $C2AM$ (location \textit{Idle}). An example of initial configuration is an energy safe mode, i.e., all sensors off, operated \X{to increase members' operating range}.
+
+After the initial guard condition $g_0$ is satisfied and the first location is reached, as shown in~Figure~\ref{fig:ex_pg}, TP can eventually be allocated tasks $T_{ex}$ that arrive over its dedicated asynchronous channel $m_k$ with the TA, at which point it will start addressing these in sequence (location \textit{Running}). If TP is able to execute the first allocated task (guard $g_2$), it indicates successful task execution with the $exec$ action, moving to location $Register$, and reports such task to the TA over the shared asynchronous channel $ch_1$, then moving back to location \textit{Running}. If the member still has a configuration capable of addressing the task (guard $g_1$), it will reconfigure to it. Otherwise (guard $g_3$), it will notify this problematic task to the TA (location \textit{Reallocating}) and continue execution (location \textit{Running}). 
+
+Alternatively, the member may non-deterministically experience sensor failure (action $sensorFailure$), whose effect is described by removing configurations with the corresponding feature from the member's feature model, i.e., a self-reconfiguration that can be improved by a task reallocation. This action together with members loss (action $memberFailure$) composes changes in the self. In such a case, the tasks can be reallocated or a new C2 Approach can be operated to improve the system's awareness about the situation.
+
+\X{
+In summary, the member's implementation as DSPL provides the first level for dealing with context changes. Figure~\ref{fig:dspl_approach} shows the DSPL approach elements combined with the~\emph{Task Perform} PG. Any perturbation described in Section~\ref{sec:example} that becomes the member’s configuration incompatible with the circumstance, i.e., guard condition $g_1$ equals to true, activates the action~\emph{reconfig}. The action~\emph{find\_configuration} implements this action, which operates on the set of features $F$ to generate an updated set of feature models $\llbracket FM \rrbracket$ compatible with the new circumstance. In addition, this reconfiguration may use information came from the context, e.g., tasks allocation between other members in the team. The reconfiguration itself selects the best configuration $c$ to satisfy the quality $Q_{ij}$ required.
+}
+ 
+\begin{figure}[ht!]
+    \centering
+    \color{blue}
+    \scalebox{.75}{\input{tikz/dspl}}
+    \caption{Task Allocator actions related to the DSPL approach}
+    \label{fig:dspl_approach}
+\end{figure}
+
+\X{The \emph{reconfig} action provides all mission's required feature activation. The \emph{FM} maps all sensors and other resources onboard in the UAV and we can activate or deactivate according to the features required and addressing all existing constraints between them. Such a mapping is oriented to maximize the quality $Q_{ij}$ and mission results.}
+
+\subsubsection{Task Allocator}
+
+In contrast to role TP, which focuses on task execution and member reconfiguration, TA defines coordination behavior among members, establishing task allocation responsibilities, as shown formally in Figure~\ref{fig:ta_pg}. When the mission starts, TA is in the \textit{Waiting} location, staying there until it receives mission tasks $T'$ and members information $E'$ from the C2AM over the synchronous channel $ch_2$, then moving to location $Ready$. TA then performs task allocation (action $allocate$),  notifies each member $k$ (locations \textit{Notifying} and \textit{Binding}) of its assigned task 
+$T'_k$ via an specific asynchronous channel $m_k$, returning to the \textit{Ready} location. Eventually, TA will be notified, over a shared asynchronous channel $ch_1$, of successfully completed tasks by the members and of failed tasks, in which case it will perform a new task allocation. In case of members' failure (action $memberFailure$), the TA tries to reallocate tasks previously allocated to those members. If unsuccessful, the TA reports such tasks along with members' status to the C2AM over the synchronous channel $ch_3$. 
+
+%Furthermore, the PG can absorb new tasks ($T_{add}$) added to the mission through the action $addTasks$, causing the mission update, represented by $T'++T_{add}$. 
+
+
+\begin{figure}[ht!]
+    \centering
+    \scalebox{.75}{\input{tikz/ta_pg}}
+    \caption{Program Graph defining the Task Allocator (TA) role}
+    \label{fig:ta_pg}
+\end{figure}
+
+
+\subsubsection{C2 Approach Manager}
+
+At the coarsest-grained level of coordination, C2AM specifies a C2 approach change protocol, as defined formally in Figure~\ref{fig:c2a_pg}. C2AM starts operation by receiving mission tasks, member information, and initial C2 approach from the C2CS call ($g_0$ at location \textit{Notifying}), i.e., mission startup. From this initial location, it goes to the location \textit{Operating} with the initial C2 approach $\omega_0$ and sends the set of tasks $T$, the team $E$ and the $\omega_0$ over the synchronous channel $ch_2$. The C2AM remains in the $Operating$ location until eventually receiving, from TA, the pair formed by the set of unallocated tasks and the updated team members. Such information comes over the synchronous channel $ch_3$ and takes C2AM to location \textit{Maneuvering}.
+
+The tasks received and the last information about the members' status are analyzed with the action $update$. In case the function \emph{find\_maneuver} finds a C2 Approach to be applied in order to perform the tasks with the available team, it is defined and C2AM sends mission tasks, members' information and C2 Approach selected to the TA over the synchronous channel $ch_2$, then moving to the location \emph{Operating}. Otherwise, those tasks are registered as failed ($T_{fail}$) and the TA is notified with an empty set of tasks. The C2AM then goes to location \emph{Operating} passing through \emph{Notifying} and adopts a domain defined C2 Approach $w_f$ (cf. Section~\ref{ssec:background_c2}).
+
+\begin{figure}[!ht]
+    \centering
+    \scalebox{.65}{\input{tikz/c2am_pg}}
+    \caption{Program Graph defining the C2 Approach Manager (C2AM) role}
+    \label{fig:c2a_pg}
+\end{figure}
+
+\X{In summary, Figure~\ref{fig:diagram} shows the interaction between these roles played by the members. The tasks received by the member with the role \emph{C2AM} causes an initial C2 approach selection, followed by the members, i.e., DSPL, notification. Next, the \emph{TA} role receives the tasks and performs the allocation. In case of no suitable allocation, the system tries to change the C2 approach to improve the awareness. All tasks allocated are sent to the related TP. Such a member tries to find a suitable configuration. If it is not possible, the task is reallocated. Finally, with context changes, the \emph{TA} and the \emph{TP} roles try to adjust themselves. A new configuration is the first dealing, followed by the task reallocation and if they do not work, a new C2 approach is evaluated to obtain a suitable system awareness.
+}
+
+\begin{figure}[!ht]
+    \centering
+    \scalebox{.75}{\input{tikz/diagram}}
+    \caption{Roles' PG interaction}
+    \label{fig:diagram}
+\end{figure}
