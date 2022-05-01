@@ -97,21 +97,41 @@ Recalling the motivating example (Section~\ref{sec:example}), in that specific C
 
 Overall, reconfiguration, performing new task allocation, and changing the C2 approach under certain context changes are explicitly represented in the PGs, \color{black}thereby enabling the C2CS's strategy \color{black} to achieve agility (cf. Section~\ref{sec:example}). The PGs are detailed in the following, and their implementation is publicly available elsewhere.\footnote{\implementation}
 
+\X{In summary, Figure~\ref{fig:diagram} shows the interaction between these roles played by the members. The tasks received by the member with the role \emph{C2AM} causes an initial C2 approach selection, followed by the members, i.e., DSPL, notification. Next, the \emph{TA} role receives the tasks and performs the allocation. In case of no suitable allocation, the system tries to change the C2 approach to improve the awareness. All allocated tasks are sent to the related TP. This member tries to find a suitable configuration. If it is not possible, the task is reallocated. Finally, with the context changes, the \emph{TA} and the \emph{TP} roles try to adjust themselves. A new configuration is the first deal, followed by the task reallocation. In case they do not work, a new C2 approach is evaluated to obtain a suitable system awareness.
+}
+
+\begin{figure}[!ht]
+    \centering
+    \scalebox{.75}{\input{tikz/diagram}}
+    \caption{Roles' PG interaction}
+    \label{fig:diagram}
+\end{figure}
+
+
 
 \subsubsection{Task Performer}
 
 The Task Performer's PG defines task execution and reconfiguration behavior for members playing this role. To enable this behavior, each member $e \in E$ is modelled as a Dynamic Software Product Line (DSPL)~\citep{Hallsteinsen2008}, whose Feature Model ($FM$) is given by a set of \textit{features} $F=\{f_1, ...,f_k\}$ from which a valid set of configurations $[\![FM]\!]$ is obtained, i.e., $[\![FM]\!]: \mathcal{P}(F)$~\citep{Schobbens2006FeatureDA, Kang1990}. The $features$ represent the members’ onboard  resources, which when enabled indicate that the corresponding sensors are operational.
 
-The member's configurations described by its feature model provide task completion capability. The member's reconfiguration behavior is described by actions in the PG due to context changes and it is \color{black}characterized by choosing \color{black}a configuration compatible with the tasks. This aspect allows the members to reconfigure themselves to become compatible with the tasks to be performed.
+The member's configurations described by its feature model provide task completion capability. The member's reconfiguration behavior is described by actions in the PG due to context changes and it is characterized by choosing a configuration compatible with the tasks. This aspect allows the members to reconfigure themselves to become compatible with the tasks to be performed. \X{Figure~\ref{fig:TP_behavior} shows an internal member's structure using the FM (Figure~\ref{fig:scene01}). Besides, we see a distinct feature activation according to new context conditions or, as in the example, a sensor issue occurring (Figure~\ref{fig:scene02}). The new configuration adopted must be in the set $[\![FM]\!]$.}
 
-\begin{figure}[ht!]
-    \centering
-    \scalebox{.75}{\input{tikz/tp_pg}}
-    \caption{Program Graph defining the Task Performer $k$ (TP) role}
-    \label{fig:ex_pg}
+\begin{figure}[!htbp]
+	\centering
+	\begin{subfigure}[t]{.45\textwidth}
+	\centering
+	    \includegraphics[width=0.95\linewidth]{img/scenario_01.png}
+	    \caption{Feature Model showing UAV internal structure\label{fig:scene01}}
+	\end{subfigure}
+	\begin{subfigure}[t]{.45\textwidth}
+	\centering
+	    \includegraphics[width=0.95\linewidth]{img/scenario_02.png}
+	    \caption{Feature activation to deal with context change\label{fig:scene02}}
+	\end{subfigure}
+	\caption{Member modeling using a Feature Model (partial view)indicating a reconfiguration performed by the TP, deactivating the feature related to sensor B and activating sensor C}
+	\label{fig:TP_behavior}
 \end{figure}
 
-\color{black}Based on this, a member $e$ is capable of executing a task $t$ when it reconfigures itself to adopt a configuration $c \in [\![FM]\!]$ such that this configuration makes the member capable of dealing with the task $t$.  This compatibility is known at the start and is denoted by $compatible(c, t)$. \color{black}This configuration is characterized by sensors activated. There is a score, between 0 and 1, which indicates the compatibility level between each sensor $i$ onboard and the type of a task $j$, written as $Q_{ij}$ and so named quality. In summary, a member can receive a task $j$ when it has a sensor $i$ enabled whose $Q_{ij}$ meets the threshold, i.e., the acceptance level defined.  
+Based on this, a member $e$ is capable of executing a task $t$ when it reconfigures itself to adopt a configuration $c \in [\![FM]\!]$ such that this configuration makes the member capable of dealing with the task $t$.  This compatibility is known at the start and is denoted by $compatible(c, t)$. This configuration is characterized by sensors activated. There is a score, between 0 and 1, which indicates the compatibility level between each sensor $i$ onboard and the type of a task $j$, written as $Q_{ij}$ and so named quality. In summary, a member can receive a task $j$ when it has a sensor $i$ enabled whose $Q_{ij}$ meets the threshold, i.e., the acceptance level defined.  
 
 %\begin{equation}
 %    \label{eq:prop6}
@@ -120,31 +140,75 @@ The member's configurations described by its feature model provide task completi
 
 Figure~\ref{fig:ex_pg} defines \X{TP} behavior formally. Accordingly, upon mission start (guard $g_0$), TP has an initial configuration $c_0$, i.e., initial state defined by \X{members'} characteristics or even by the domain requirements, and an initial C2 strategy $w_0$ received through channel $ch2$ from $C2AM$ (location \textit{Idle}). An example of initial configuration is an energy safe mode, i.e., all sensors off, operated \X{to increase members' operating range}.
 
+\begin{figure}[ht!]
+    \centering
+    \scalebox{.75}{\input{tikz/tp_pg}}
+    \caption{Program Graph defining the Task Performer $k$ (TP) role}
+    \label{fig:ex_pg}
+\end{figure}
+
 After the initial guard condition $g_0$ is satisfied and the first location is reached, as shown in~Figure~\ref{fig:ex_pg}, TP can eventually be allocated tasks $T_{ex}$ that arrive over its dedicated asynchronous channel $m_k$ with the TA, at which point it will start addressing these in sequence (location \textit{Running}). If TP is able to execute the first allocated task (guard $g_2$), it indicates successful task execution with the $exec$ action, moving to location $Register$, and reports such task to the TA over the shared asynchronous channel $ch_1$, then moving back to location \textit{Running}. If the member still has a configuration capable of addressing the task (guard $g_1$), it will reconfigure to it. Otherwise (guard $g_3$), it will notify this problematic task to the TA (location \textit{Reallocating}) and continue execution (location \textit{Running}). 
 
 Alternatively, the member may non-deterministically experience sensor failure (action $sensorFailure$), whose effect is described by removing configurations with the corresponding feature from the member's feature model, i.e., a self-reconfiguration that can be improved by a task reallocation. This action together with members loss (action $memberFailure$) composes changes in the self. In such a case, the tasks can be reallocated or a new C2 Approach can be operated to improve the system's awareness about the situation.
 
 \X{
-In summary, the member's implementation as DSPL provides the first level for dealing with context changes. Figure~\ref{fig:dspl_approach} shows the DSPL approach elements combined with the~\emph{Task Perform} PG. Any perturbation described in Section~\ref{sec:example} that becomes the member’s configuration incompatible with the circumstance, i.e., guard condition $g_1$ equals to true, activates the action~\emph{reconfig}. The action~\emph{find\_configuration} implements this action, which operates on the set of features $F$ to generate an updated set of feature models $\llbracket FM \rrbracket$ compatible with the new circumstance. In addition, this reconfiguration may use information came from the context, e.g., tasks allocation between other members in the team. The reconfiguration itself selects the best configuration $c$ to satisfy the quality $Q_{ij}$ required.
+In summary, the member's implementation as DSPL provides the first level for dealing with context changes. Figure~\ref{fig:dspl_approach} shows the DSPL approach steps performed by the~\emph{Task Performer} PG. The \emph{FM}, which models such a DSPL, maps all sensors and other resources onboard in the UAV and we can activate or deactivate according to the features required and addressing all existing constraints between them. Such a mapping is oriented to maximize the quality and mission results.
 }
- 
-\begin{figure}[ht!]
+
+\begin{figure}[ht]
     \centering
     \color{blue}
     \scalebox{.75}{\input{tikz/dspl}}
-    \caption{Task Allocator actions related to the DSPL approach}
+    \caption{Task Performer actions related to the DSPL approach}
     \label{fig:dspl_approach}
 \end{figure}
 
-\X{The \emph{reconfig} action provides all mission's required feature activation. The \emph{FM} maps all sensors and other resources onboard in the UAV and we can activate or deactivate according to the features required and addressing all existing constraints between them. Such a mapping is oriented to maximize the quality $Q_{ij}$ and mission results.}
+\X{
+Any perturbation described in Section~\ref{sec:example} that becomes the member’s configuration incompatible with the circumstance, i.e., guard condition $g_1$ equals to true, activates the action~\emph{reconfig}, that provides all mission's required feature activation. It requires an adjustment to perform the next task or to continue the current execution. Algorithm~\ref{algo:reconfig_algo} describes the function~\emph{find\_configuration} that implements this action, which starts operating on the set of features $F$ to analyze their current status, and to generate an updated set of feature models $\llbracket FM \rrbracket$ compatible with the new circumstance (line~\ref{line:get_fm}). In addition, this reconfiguration may use information came from the context, e.g., tasks allocation between other members in the team. 
+}
+
+\begin{algorithm}[h!t]
+    \SetAlCapNameFnt{\small}
+    \SetAlCapFnt{\small\color{blue}}
+	\caption{The function $find\_configuration$ that implements the the $reconfig$ action to deal with new circumstance}
+	\label{algo:reconfig_algo}
+	
+	\color{blue}
+	\SetAlgoLined
+	\DontPrintSemicolon
+	\SetKwBlock{Loop}{loop}{end loop}
+	\SetKwFor{ForAll}{for all}{do}{end for}
+	
+	%\SetAlgoNlRelativeSize{-3}
+	\SetNlSty{text}{}{:}
+	\SetNlSkip{0.3em}
+
+    i = current or next task\;
+    quality = 0\;
+    selected\_sensor = 0\;
+    $\llbracket FM \rrbracket$ = valid configurations based on $F$\;\label{line:get_fm}
+    \ForAll{ onboard sensor j }{\label{line:select_sensor_begin}
+     $Q_{ij}$ = calculate quality to sensor $j$ be used in task $i$\;\label{line:calculate_quality}
+     \If{($Q_{ij} \geq$ threshold)  $\land$  ($Q_{ij} >$ quality)}{quality = $Q_{ij}$\;\label{line:update_quality}
+     selected\_sensor = j\;\label{line:select_sensor_end}}
+    }
+    select $c \in \llbracket FM \rrbracket \mid (number feature_{selected\_sensor} \in c$)\;\label{line:select_c}
+    \ForAll{feature $f \in F$}{\label{line:select_f_begin}
+    \If{$f \in c$}{activate $f$}
+    \Else{deactivate $f$}\label{line:select_f_end}
+    }
+\end{algorithm}
+
+\X{
+Next, we perform a quality comparison of the task $i$ and each sensor $j$, according to their compatibility. The reconfiguration itself selects the best configuration $c$ to satisfy required quality parameter, i.e., \emph{threshold} (lines~\ref{line:select_sensor_begin} to~\ref{line:select_sensor_end}). After this analysis, we select the most suitable configuration $c$ that contains only the required sensor $j$ activated(line~\ref{line:select_c}). In such a case, all other sensor are disabled (lines~\ref{line:select_f_begin} to~\ref{line:select_f_end}).
+}
+
+
+
 
 \subsubsection{Task Allocator}
 
-In contrast to role TP, which focuses on task execution and member reconfiguration, TA defines coordination behavior among members, establishing task allocation responsibilities, as shown formally in Figure~\ref{fig:ta_pg}. When the mission starts, TA is in the \textit{Waiting} location, staying there until it receives mission tasks $T'$ and members information $E'$ from the C2AM over the synchronous channel $ch_2$, then moving to location $Ready$. TA then performs task allocation (action $allocate$),  notifies each member $k$ (locations \textit{Notifying} and \textit{Binding}) of its assigned task 
-$T'_k$ via an specific asynchronous channel $m_k$, returning to the \textit{Ready} location. Eventually, TA will be notified, over a shared asynchronous channel $ch_1$, of successfully completed tasks by the members and of failed tasks, in which case it will perform a new task allocation. In case of members' failure (action $memberFailure$), the TA tries to reallocate tasks previously allocated to those members. If unsuccessful, the TA reports such tasks along with members' status to the C2AM over the synchronous channel $ch_3$. 
-
-%Furthermore, the PG can absorb new tasks ($T_{add}$) added to the mission through the action $addTasks$, causing the mission update, represented by $T'++T_{add}$. 
-
+In contrast to role TP, which focuses on task execution and member reconfiguration, TA defines coordination behavior among members, establishing task allocation responsibilities, as shown formally in Figure~\ref{fig:ta_pg}. \X{The members with such a role perform the tasks allocation according to quality levels. In addition, they reallocate tasks because of context changes. Figure~\ref{fig:TA_behavior} shows a task reallocation because of sensor issue, looking for keeping mission's quality level.}
 
 \begin{figure}[ht!]
     \centering
@@ -154,11 +218,35 @@ $T'_k$ via an specific asynchronous channel $m_k$, returning to the \textit{Read
 \end{figure}
 
 
+When the mission starts, TA is in the \textit{Waiting} location, staying there until it receives mission tasks $T'$ and members information $E'$ from the C2AM over the synchronous channel $ch_2$, then moving to location $Ready$. TA then performs task allocation (action $allocate$),  notifies each member $k$ (locations \textit{Notifying} and \textit{Binding}) of its assigned task $T'_k$ via an specific asynchronous channel $m_k$, returning to the \textit{Ready} location. Eventually, TA will be notified, over a shared asynchronous channel $ch_1$, of successfully completed tasks by the members and of failed tasks, in which case it will perform a new task allocation. In case of members' failure (action $memberFailure$), the TA tries to reallocate tasks previously allocated to those members. If unsuccessful, the TA reports such tasks along with members' status to the C2AM over the synchronous channel $ch_3$. 
+
+\begin{figure}[!htbp]
+	\centering
+	\begin{subfigure}[t]{.45\textwidth}
+	\centering
+	    \includegraphics[width=0.95\linewidth]{img/scenario_03.png}
+	    \caption{Member sends back a task not executable due to internal issues\label{fig:scene03}}
+	\end{subfigure}
+	\begin{subfigure}[t]{.45\textwidth}
+	\centering
+	    \includegraphics[width=0.95\linewidth]{img/scenario_04.png}
+	    \caption{TA finds another member with a suitable sensor to send the task received \label{fig:scene04}}
+	\end{subfigure}
+	\caption{A task reallocation (task \#3) performed by a member with Task Allocator role, based on its compatibility's degree with the members' onboard sensors}
+	\label{fig:TA_behavior}
+\end{figure}
+
+
+%Furthermore, the PG can absorb new tasks ($T_{add}$) added to the mission through the action $addTasks$, causing the mission update, represented by $T'++T_{add}$. 
+
+
+
+
 \subsubsection{C2 Approach Manager}
 
 At the coarsest-grained level of coordination, C2AM specifies a C2 approach change protocol, as defined formally in Figure~\ref{fig:c2a_pg}. C2AM starts operation by receiving mission tasks, member information, and initial C2 approach from the C2CS call ($g_0$ at location \textit{Notifying}), i.e., mission startup. From this initial location, it goes to the location \textit{Operating} with the initial C2 approach $\omega_0$ and sends the set of tasks $T$, the team $E$ and the $\omega_0$ over the synchronous channel $ch_2$. The C2AM remains in the $Operating$ location until eventually receiving, from TA, the pair formed by the set of unallocated tasks and the updated team members. Such information comes over the synchronous channel $ch_3$ and takes C2AM to location \textit{Maneuvering}.
 
-The tasks received and the last information about the members' status are analyzed with the action $update$. \X{The function~\emph{find\_maneuver} takes the next C2 approach with higher awareness (cf. Section~\ref{sec:background}), according to~\citet{nato01}, and it checks if this choice is suitable for dealing with the context. In case this function finds a C2 Approach to be applied in order to perform the tasks with the available team, it is defined and C2AM sends mission tasks, members' information and C2 Approach selected to the TA over the synchronous channel $ch_2$, then moving to the location \emph{Operating}.} Otherwise, those tasks are registered as failed ($T_{fail}$) and the TA is notified with an empty set of tasks. The C2AM then goes to location \emph{Operating} passing through \emph{Notifying} and adopts a domain defined C2 Approach $w_f$ (cf. Section~\ref{ssec:background_c2}).
+The tasks received and the last information about the members' status are analyzed with the action $update$. \X{The function~\emph{find\_maneuver} takes the next C2 approach with higher awareness (cf. Section~\ref{sec:background}), according to~\citet{nato01}, and it checks if this choice is suitable for dealing with the context. In case this function finds a C2 Approach to be applied in order to perform the tasks with the available team, it is defined and C2AM sends mission tasks, members' information and C2 Approach selected to the TA over the synchronous channel $ch_2$, then moving to the location \emph{Operating}.} Otherwise, those tasks are registered as failed ($T_{fail}$) and the TA is notified with an empty set of tasks. The C2AM then goes to location \emph{Operating} passing through \emph{Notifying} and adopts a domain defined C2 Approach $w_f$ (cf. Section~\ref{ssec:background_c2}). \X{The results of these steps is shown in Figure~\ref{fig:TeamExecutionAfterManuever}.}
 
 \begin{figure}[!ht]
     \centering
@@ -167,12 +255,3 @@ The tasks received and the last information about the members' status are analyz
     \label{fig:c2a_pg}
 \end{figure}
 
-\X{In summary, Figure~\ref{fig:diagram} shows the interaction between these roles played by the members. The tasks received by the member with the role \emph{C2AM} causes an initial C2 approach selection, followed by the members, i.e., DSPL, notification. Next, the \emph{TA} role receives the tasks and performs the allocation. In case of no suitable allocation, the system tries to change the C2 approach to improve the awareness. All tasks allocated are sent to the related TP. Such a member tries to find a suitable configuration. If it is not possible, the task is reallocated. Finally, with context changes, the \emph{TA} and the \emph{TP} roles try to adjust themselves. A new configuration is the first dealing, followed by the task reallocation and if they do not work, a new C2 approach is evaluated to obtain a suitable system awareness.
-}
-
-\begin{figure}[!ht]
-    \centering
-    \scalebox{.75}{\input{tikz/diagram}}
-    \caption{Roles' PG interaction}
-    \label{fig:diagram}
-\end{figure}
