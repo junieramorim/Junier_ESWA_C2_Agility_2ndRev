@@ -98,7 +98,7 @@ Overall, reconfiguration, performing new task allocation, and changing the C2 ap
 \begin{figure}[!ht]
     \centering
     \scalebox{.75}{\input{tikz/diagram}}
-    \captionsetup{font={color=blue}}
+    \captionsetup{font={color=\highlight}}
     \caption{Roles' PG interaction}
     \label{fig:diagram}
 \end{figure}
@@ -107,15 +107,17 @@ Overall, reconfiguration, performing new task allocation, and changing the C2 ap
 
 \subsubsection{Task Performer}
 
-\X{To satisfy the C2 agility requirements and in line with Self-Adaptive Systems (SAS)~\citep{AlvesSBBG09}, our proposal relies on the software capacity of adapting to deal with requirements change in runtime. Based on the Software Product Line (SPL) approach and concepts~\citep{SPL_SAS01}, we leverage its extension, so-called Dynamic Software Product Line (DSPL), as a strategy for implementing this capability of runtime reconfiguration.} 
+\X{To satisfy the C2 agility requirements and in line with Self-Adaptive Systems (SAS)~\citep{AlvesSBBG09}, our proposal relies on the software capacity of adapting to deal with requirements change in runtime. 
+%Based on the Software Product Line (SPL) approach and concepts~\citep{SPL_SAS01}, we leverage its extension, so-called 
+Accordingly, we leverage Dynamic Software Product Lines (DSPL)~\citep{SPL_SAS01} as a strategy for implementing this capability of runtime reconfiguration.} 
 
-The Task Performer's PG defines task execution and reconfiguration behavior for members playing this role. To enable this behavior, each member $e \in E$ is modeled as a DSPL~\citep{Hallsteinsen2008}, whose Feature Model ($FM$) is given by a set of \textit{features} $F=\{f_1, ...,f_k\}$ from which a valid set of configurations $[\![FM]\!]$ is obtained, i.e., $[\![FM]\!]: \mathcal{P}(F)$~\citep{Schobbens2006FeatureDA, Kang1990}. The $features$ represent the members’ onboard  resources, which when enabled indicate that the corresponding sensors are operational.
+\X{In this vein,} the Task Performer's PG defines task execution and reconfiguration behavior for members playing this role. To enable this behavior, each member $e \in E$ is modeled as a DSPL~\citep{Hallsteinsen2008}, whose Feature Model ($FM$) is given by a set of \textit{features} $F=\{f_1, ...,f_k\}$ from which a valid set of configurations $[\![FM]\!]$ is obtained, i.e., $[\![FM]\!]: \mathcal{P}(F)$~\citep{Schobbens2006FeatureDA, Kang1990}. The $features$ represent the members’ onboard  resources, which when enabled indicate that the corresponding sensors are operational.
 
 The member's configurations described by its feature model provide task completion capability. The member's reconfiguration behavior is described by actions in the PG due to context changes and it is characterized by choosing a configuration compatible with the tasks. This aspect allows the members to reconfigure themselves to become compatible with the tasks to be performed. \X{Figure~\ref{fig:TP_behavior} shows an internal member's structure using the FM (Figure~\ref{fig:scene01}). Besides, we see a distinct feature activation according to new context conditions or, as in the example, a sensor issue occurring (Figure~\ref{fig:scene02}). The new configuration adopted must be in the set $[\![FM]\!]$.}
 
 \begin{figure}[!htbp]
 	\centering
-	\captionsetup{font={color=blue}}
+	\captionsetup{font={color=\highlight}}
 	\begin{subfigure}[t]{.45\textwidth}
 	\centering
 	    \includegraphics[width=0.95\linewidth]{img/scenario_01.png}
@@ -156,8 +158,8 @@ In summary, the member's implementation as DSPL provides the first level for dea
 
 \begin{figure}[ht]
     \centering
-    \color{blue}
-    \captionsetup{font={color=blue}}
+    \color{\highlight}
+    \captionsetup{font={color=\highlight}}
     \scalebox{.75}{\input{tikz/dspl}}
     \caption{Task Performer actions related to the DSPL approach}
     \label{fig:dspl_approach}
@@ -168,12 +170,12 @@ Any perturbation described in Section~\ref{sec:example} that makes the member’
 }
 
 \begin{algorithm}[h!t]
-    \SetAlCapNameFnt{\small\color{blue}}
-    \SetAlCapFnt{\small\color{blue}}
+    \SetAlCapNameFnt{\small\color{\highlight}}
+    \SetAlCapFnt{\small\color{\highlight}}
 	\caption{Function $find\_configuration$ implementing the the $reconfig$ action to deal with new circumstance}
 	\label{algo:reconfig_algo}
 	
-	\color{blue}
+	\color{\highlight}
 	\SetAlgoLined
 	\DontPrintSemicolon
 	\SetKwBlock{Loop}{loop}{end loop}
@@ -220,7 +222,7 @@ When the mission starts, TA is in the \textit{Waiting} location, staying there u
 
 \begin{figure}[!htbp]
 	\centering
-	\captionsetup{font={color=blue}}
+	\captionsetup{font={color=\highlight}}
 	\begin{subfigure}[t]{.45\textwidth}
 	\centering
 	    \includegraphics[width=0.95\linewidth]{img/scenario_03.png}
